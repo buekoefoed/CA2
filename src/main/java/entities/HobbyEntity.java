@@ -3,10 +3,16 @@ package entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity ")
+@NamedQueries({@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity "),
+@NamedQuery(name = "HobbyEntity.getAllHobbies", query = "select h from HobbyEntity h"),
+@NamedQuery(name = "", query = "")
+
+})
+
 public class HobbyEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,6 +24,10 @@ public class HobbyEntity implements Serializable {
     private String description;
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "hobbies")
     private List<PersonEntity> persons = new ArrayList<>();
+    @Temporal(TemporalType.DATE)
+    private Date created;
+    @Temporal(TemporalType.DATE)
+    private Date lastEdited;
 
     public HobbyEntity() {
     }
@@ -48,5 +58,9 @@ public class HobbyEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setLastEdited() {
+        this.lastEdited = new Date();
     }
 }

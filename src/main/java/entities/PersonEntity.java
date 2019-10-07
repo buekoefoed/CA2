@@ -1,5 +1,7 @@
 package entities;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class PersonEntity implements Serializable {
     private String firstName;
     private String lastName;
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "person")
+    @CascadeOnDelete
     private List<PhoneEntity> phones = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
