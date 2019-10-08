@@ -16,7 +16,7 @@ public class HobbyEntity implements Serializable {
     private int id;
     private String name;
     private String description;
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "hobbies")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "hobbies")
     private List<PersonEntity> persons = new ArrayList<>();
 
     public HobbyEntity() {

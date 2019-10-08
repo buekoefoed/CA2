@@ -13,7 +13,7 @@ public class PhoneEntity implements Serializable {
     private int id;
     private String number;
     private String description;
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private PersonEntity person;
 

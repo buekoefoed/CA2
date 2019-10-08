@@ -152,8 +152,8 @@ public class PersonFacade implements IPersonFacade {
     public PersonEntity deletePerson(int id) {
         EntityManager entityManager = getEntityManager();
         try {
-            PersonEntity personEntity = entityManager.find(PersonEntity.class, id);
             entityManager.getTransaction().begin();
+            PersonEntity personEntity = entityManager.find(PersonEntity.class, id);
             entityManager.remove(personEntity);
             entityManager.getTransaction().commit();
             return personEntity;

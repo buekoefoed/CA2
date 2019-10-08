@@ -15,9 +15,9 @@ public class AddressEntity implements Serializable {
     private int id;
     private String street;
     private String additionalInfo;
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "address")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
     private List<PersonEntity> persons = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "CityInfo_id")
     private CityInfoEntity cityInfo;
 

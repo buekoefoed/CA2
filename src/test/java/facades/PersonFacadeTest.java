@@ -75,7 +75,7 @@ class PersonFacadeTest {
         PhoneEntity phone2 = new PhoneEntity();
         phone2.setNumber("4321");
         phone2.setDescription("Office");
-        person2.addPhone(phone);
+        person2.addPhone(phone2);
 
         CityInfoEntity cityInfo2 = new CityInfoEntity();
         cityInfo2.setCity("Gudhjem");
@@ -84,13 +84,12 @@ class PersonFacadeTest {
         AddressEntity address2 = new AddressEntity();
         address2.setStreet("Holkavej 3");
         address2.setAdditionalInfo("no");
-        person2.addAddress(address);
+        person2.addAddress(address2);
 
         cityInfo2.addAddress(address2);
 
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("PersonEntity.deleteAllRows").executeUpdate();
             em.persist(person1);
             em.persist(person2);
             em.getTransaction().commit();
@@ -101,7 +100,15 @@ class PersonFacadeTest {
 
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createQuery("select p from PersonEntity p", PersonEntity.class).getResultList().forEach((em::remove));
+            em.createQuery("select c from CityInfoEntity c", CityInfoEntity.class).getResultList().forEach((em::remove));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     @Test
@@ -122,6 +129,7 @@ class PersonFacadeTest {
         PersonDTO newPerson = instance.createPerson(personDTO);
         assertEquals(personDTO.getFirstName(), newPerson.getFirstName());
         assertEquals(3, instance.getAllPersons().size());
+
     }
 
     @Test

@@ -19,7 +19,7 @@ public class CityInfoEntity implements Serializable {
     private String zipCode;
     @Schema(required = true, example = "Rønne")
     private String city;
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "cityInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cityInfo")
     private List<AddressEntity> addresses = new ArrayList<>();
 
     public CityInfoEntity() {
