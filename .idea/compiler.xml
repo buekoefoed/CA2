@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="startcodeOas" options="-endorseddirs &quot;C:\Users\Emil\OneDrive - EFIF\Datamatiker\sem3\flow2\week2\CA2\target/endorsed&quot;" />
+      <module name="startcodeOas" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
     </option>
   </component>
 </project>

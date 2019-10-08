@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.HobbyDTO;
+import dtos.PersonDTO;
 import entities.HobbyEntity;
 import entities.PersonEntity;
 import errorhandling.HobbyNotFoundException;
@@ -8,6 +9,7 @@ import errorhandling.HobbyNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HobbyFacade implements IHobbyFacade {
@@ -36,20 +38,23 @@ public class HobbyFacade implements IHobbyFacade {
     }
 
     @Override
-    public List<HobbyEntity> getAllHobbies() {
+    public List<HobbyDTO> getAllHobbies() {
         EntityManager em = getEntityManager();
         try {
-            return em.createNamedQuery("HobbyEntity.getAllHobbies", HobbyEntity.class).getResultList();
+            List<HobbyDTO> hobbyDTOS = new ArrayList<>();
+            List<HobbyEntity> hobbyEntities = em.createNamedQuery("HobbyEntity.getAllHobbies", HobbyEntity.class).getResultList();
+            hobbyEntities.forEach((hobbyEntities2 -> hobbyDTOS.add(new HobbyDTO(hobbyEntities2))));
+            return hobbyDTOS;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<PersonEntity> getAllPersonsByHobby(String hobby) {
+    public List<PersonDTO> getAllPersonsByHobby(String hobby) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createQuery("SELECT pe from PersonEntity pe where pe.HobbyEntity=:arg1");
+            Query query = em.createQuery("SELECT pe from PersonEntity pe where pe.hobbies=:arg1");
             query.setParameter("arg1", hobby);
             return query.getResultList();
         } finally {
@@ -68,7 +73,7 @@ public class HobbyFacade implements IHobbyFacade {
     }
 
     @Override
-    public HobbyEntity createHobby(HobbyDTO hobby) throws HobbyNotFoundException {
+    public HobbyDTO createHobby(HobbyDTO hobby) throws HobbyNotFoundException {
         EntityManager em = getEntityManager();
         HobbyEntity newHobby = new HobbyEntity();
         if (newHobby == null) {
@@ -84,17 +89,16 @@ public class HobbyFacade implements IHobbyFacade {
         } finally {
             em.close();
         }
-        return newHobby;
+        return hobby;
     }
 
     @Override
-    public HobbyEntity updateHobby(int id, HobbyDTO hobby) throws HobbyNotFoundException {
+    public HobbyDTO updateHobby(int id, HobbyDTO hobby) throws HobbyNotFoundException {
         EntityManager em = getEntityManager();
-        HobbyEntity hobbyUpdate = em.find(HobbyEntity.class, hobby.getId());
+        HobbyEntity hobbyUpdate = em.find(HobbyEntity.class, id);
         if (hobbyUpdate == null) {
             throw new HobbyNotFoundException("Could not update bro, something is twisted");
         }
-        hobbyUpdate.setId(hobby.getId());
         hobbyUpdate.setName(hobby.getName());
         hobbyUpdate.setDescription(hobby.getDescription());
         hobbyUpdate.setLastEdited();
@@ -105,12 +109,11 @@ public class HobbyFacade implements IHobbyFacade {
         } finally {
             em.close();
         }
-        return hobbyUpdate;
-
+        return new HobbyDTO(hobbyUpdate);
     }
 
     @Override
-    public HobbyEntity deleteHobby(int id) throws HobbyNotFoundException{
+    public HobbyDTO deleteHobby(int id) throws HobbyNotFoundException{
         EntityManager em = getEntityManager();
         HobbyEntity hobby = em.find(HobbyEntity.class, id);
         if (hobby == null) {
@@ -120,9 +123,9 @@ public class HobbyFacade implements IHobbyFacade {
             em.getTransaction().begin();
             em.remove(hobby);
             em.getTransaction().commit();
+            return new HobbyDTO(hobby);
         } finally {
             em.close();
         }
-        return hobby;
     }
 }

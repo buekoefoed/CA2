@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+//@Disabled
 class PersonFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -23,7 +23,9 @@ class PersonFacadeTest {
 
     @BeforeAll
     public static void setUpClassV2() {
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.DROP_AND_CREATE);
+        System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
         instance = PersonFacade.getPersonFacade(emf);
     }
 

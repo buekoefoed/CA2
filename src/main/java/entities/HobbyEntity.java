@@ -32,6 +32,19 @@ public class HobbyEntity implements Serializable {
     public HobbyEntity() {
     }
 
+    public HobbyEntity(String name, String description, List<PersonEntity> persons, Date created, Date lastEdited) {
+        this.name = name;
+        this.description = description;
+        this.persons = persons;
+        this.created = created;
+        this.lastEdited = lastEdited;
+    }
+
+    public HobbyEntity(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public void addPerson(PersonEntity person) {
         this.persons.add(person);
     }
