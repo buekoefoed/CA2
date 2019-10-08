@@ -31,4 +31,12 @@ public class PhoneDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "PhoneDTO{" +
+                "number='" + number + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

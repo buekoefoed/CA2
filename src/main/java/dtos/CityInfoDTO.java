@@ -7,18 +7,15 @@ import java.util.List;
 public class CityInfoDTO {
     private String zipCode;
     private String city;
-    private List<AddressDTO> addresses;
 
     public CityInfoDTO(String zipCode, String city, List<AddressDTO> addresses) {
         this.zipCode = zipCode;
         this.city = city;
-        this.addresses = addresses;
     }
 
     public CityInfoDTO(CityInfoEntity cityInfoEntity) {
         this.zipCode = cityInfoEntity.getZipCode();
         this.city = cityInfoEntity.getCity();
-        cityInfoEntity.getAddresses().forEach((address) -> this.addresses.add(new AddressDTO(address)));
     }
 
     public CityInfoDTO() {
@@ -40,11 +37,11 @@ public class CityInfoDTO {
         this.city = city;
     }
 
-    public List<AddressDTO> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<AddressDTO> addresses) {
-        this.addresses = addresses;
+    @Override
+    public String toString() {
+        return "CityInfoDTO{" +
+                "zipCode='" + zipCode + '\'' +
+                ", city='" + city + '\'' +
+                '}';
     }
 }

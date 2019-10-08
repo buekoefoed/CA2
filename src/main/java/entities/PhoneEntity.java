@@ -20,6 +20,10 @@ public class PhoneEntity implements Serializable {
     public PhoneEntity() {
     }
 
+    public PersonEntity getPerson() {
+        return person;
+    }
+
     public void addPerson(PersonEntity person) {
         this.person = person;
     }

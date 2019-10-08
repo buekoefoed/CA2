@@ -1,5 +1,6 @@
 package dtos;
 
+import entities.HobbyEntity;
 import entities.PersonEntity;
 import entities.PhoneEntity;
 
@@ -10,10 +11,25 @@ public class PersonDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private List<PhoneDTO> phones;
+    private List<PhoneDTO> phones = new ArrayList<>();
     private AddressDTO address;
     private CityInfoDTO cityInfoDTO;
-    private List<HobbyDTO> hobbies;
+    private List<HobbyDTO> hobbyDTOS = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phones=" + phones.toString() +
+                ", address=" + address.toString() +
+                ", cityInfoDTO=" + cityInfoDTO.toString() +
+                ", hobbies=" + hobbyDTOS.toString() +
+                '}';
+    }
+
+
 
     public PersonDTO(String email, String firstName, String lastName, List<PhoneDTO> phones, AddressDTO address, List<HobbyDTO> hobbies) {
         this.email = email;
@@ -21,7 +37,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = phones;
         this.address = address;
-        this.hobbies = hobbies;
+        this.hobbyDTOS = hobbies;
     }
 
     public PersonDTO(String email, String firstName, String lastName) {
@@ -30,7 +46,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = new ArrayList<>();
         this.address = new AddressDTO();
-        this.hobbies = new ArrayList<>();
+        this.hobbyDTOS = new ArrayList<>();
     }
 
     public PersonDTO() {
@@ -40,10 +56,14 @@ public class PersonDTO {
         this.email = personEntity.getEmail();
         this.firstName = personEntity.getFirstName();
         this.lastName = personEntity.getLastName();
-        personEntity.getPhones().forEach(phoneEntity -> this.phones.add(new PhoneDTO(phoneEntity)));
+        for (PhoneEntity phoneEntity : personEntity.getPhones()) {
+            this.phones.add(new PhoneDTO(phoneEntity));
+        }
         this.address = new AddressDTO(personEntity.getAddress());
         this.cityInfoDTO = new CityInfoDTO(personEntity.getAddress().getCityInfo());
-        personEntity.getHobbies().forEach(hobbyEntity -> this.hobbies.add(new HobbyDTO(hobbyEntity)));
+        for (HobbyEntity hobbyEntity : personEntity.getHobbies()) {
+                this.hobbyDTOS.add(new HobbyDTO(hobbyEntity));
+        }
     }
 
     public String getEmail() {
@@ -87,11 +107,11 @@ public class PersonDTO {
     }
 
     public List<HobbyDTO> getHobbies() {
-        return hobbies;
+        return hobbyDTOS;
     }
 
     public void setHobbies(List<HobbyDTO> hobbies) {
-        this.hobbies = hobbies;
+        this.hobbyDTOS = hobbies;
     }
 
     public CityInfoDTO getCityInfoDTO() {

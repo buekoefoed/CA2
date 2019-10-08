@@ -7,10 +7,11 @@ import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PersonFacadeTest {
 
@@ -114,7 +115,7 @@ class PersonFacadeTest {
     @Test
     void getAllPersons() {
         List<PersonDTO> personDTOS = instance.getAllPersons();
-        assertEquals(2, personDTOS.size());
+        assertNotNull(personDTOS.get(0).getPhones());
     }
 
     @Test

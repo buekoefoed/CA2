@@ -38,9 +38,36 @@ public class Main {
 
         cityInfo.addAddress(address);
 
+        PersonEntity person1 = new PersonEntity();
+        person1.setEmail("igen@igen.com");
+        person1.setFirstName("Mark");
+        person1.setLastName("Muldjord");
+
+        HobbyEntity hobby1 = new HobbyEntity();
+        hobby1.setName("Lort");
+        hobby1.setDescription("Han kan godt lide det");
+        person1.addHobby(hobby1);
+
+        PhoneEntity phone1 = new PhoneEntity();
+        phone1.setNumber("6969");
+        phone1.setDescription("nice");
+        person1.addPhone(phone1);
+
+        CityInfoEntity cityInfo1 = new CityInfoEntity();
+        cityInfo1.setCity("Lorteby");
+        cityInfo1.setZipCode("4200");
+
+        AddressEntity address1= new AddressEntity();
+        address1.setStreet("Bævej");
+        address1.setAdditionalInfo("10");
+        person1.addAddress(address1);
+
+        cityInfo1.addAddress(address1);
+
         try {
             em.getTransaction().begin();
             em.persist(person);
+            em.persist(person1);
             em.getTransaction().commit();
         } finally {
             em.close();

@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import facades.PersonFacade;
 import utils.EMF_Creator;
 import facades.FacadeExample;
 import javax.persistence.EntityManagerFactory;
@@ -15,6 +16,7 @@ public class HobbyResource {
             EMF_Creator.DbSelector.DEV,
             EMF_Creator.Strategy.CREATE);
     private static final FacadeExample FACADE =  FacadeExample.getFacadeExample(EMF);
+    private static final PersonFacade PERSON_FACADE = PersonFacade.getPersonFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET
@@ -27,7 +29,7 @@ public class HobbyResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllPersons() {
-        return "All persons";
+        return GSON.toJson(PERSON_FACADE.getAllPersons());
     }
 
     @Path("hobby/{hobby}")

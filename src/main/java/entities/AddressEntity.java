@@ -24,6 +24,10 @@ public class AddressEntity implements Serializable {
     public AddressEntity() {
     }
 
+    public List<PersonEntity> getPersons() {
+        return persons;
+    }
+
     public void addPerson(PersonEntity person) {
         this.persons.add(person);
     }
