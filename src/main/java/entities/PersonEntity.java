@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "PersonEntity.deleteAllRows", query = "DELETE from PersonEntity ")
+@NamedQueries({
+        @NamedQuery(name = "PersonEntity.deleteAllRows", query = "DELETE from PersonEntity"),
+        @NamedQuery(name = "PersonEntity.getAllPersons", query = "select p from PersonEntity p")})
 public class PersonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,8 +29,8 @@ public class PersonEntity implements Serializable {
     private AddressEntity address;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "person_hobby_LINKTABLE",
-    joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
-    inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "hobby_id"))
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "hobby_id"))
     private List<HobbyEntity> hobbies = new ArrayList<>();
 
 
@@ -80,5 +82,17 @@ public class PersonEntity implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public AddressEntity getAddress() {
+        return address;
+    }
+
+    public List<PhoneEntity> getPhones() {
+        return phones;
+    }
+
+    public List<HobbyEntity> getHobbies() {
+        return hobbies;
     }
 }

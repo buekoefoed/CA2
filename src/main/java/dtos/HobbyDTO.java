@@ -1,25 +1,12 @@
 package dtos;
 
 public class HobbyDTO {
-
-    private int id;
     private String name;
     private String description;
 
-    public HobbyDTO() {}
-
-    public HobbyDTO(int id, String name, String description) {
-        this.id = id;
+    public HobbyDTO(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

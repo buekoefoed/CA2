@@ -10,12 +10,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="startcodeOas" target="1.7" />
+      <module name="startcodeOas" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="startcodeOas" options="-endorseddirs C:\Users\karlf\IdeaProjects\CA2\target/endorsed" />
+      <module name="startcodeOas" options="-endorseddirs &quot;C:\Users\Emil\OneDrive - EFIF\Datamatiker\sem3\flow2\week2\CA2\target/endorsed&quot;" />
     </option>
   </component>
 </project>
