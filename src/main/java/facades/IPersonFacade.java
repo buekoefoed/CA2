@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface IPersonFacade {
 
-    List<PersonEntity> getAllPersons();
+    List<PersonDTO> getAllPersons();
 
-    PersonEntity getPersonByID(int id);
+    PersonDTO getPersonByID(int id);
 
-    PersonEntity createPerson(PersonDTO person);
+    PersonDTO createPerson(PersonDTO person);
 
-    PersonEntity updatePerson(int id, PersonDTO person);
+    PersonDTO updatePerson(int id, PersonDTO person);
 
     PersonEntity deletePerson(int id);
 

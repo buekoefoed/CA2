@@ -12,6 +12,7 @@ public class PersonDTO {
     private String lastName;
     private List<PhoneDTO> phones;
     private AddressDTO address;
+    private CityInfoDTO cityInfoDTO;
     private List<HobbyDTO> hobbies;
 
     public PersonDTO(String email, String firstName, String lastName, List<PhoneDTO> phones, AddressDTO address, List<HobbyDTO> hobbies) {
@@ -41,6 +42,7 @@ public class PersonDTO {
         this.lastName = personEntity.getLastName();
         personEntity.getPhones().forEach(phoneEntity -> this.phones.add(new PhoneDTO(phoneEntity)));
         this.address = new AddressDTO(personEntity.getAddress());
+        this.cityInfoDTO = new CityInfoDTO(personEntity.getAddress().getCityInfo());
         personEntity.getHobbies().forEach(hobbyEntity -> this.hobbies.add(new HobbyDTO(hobbyEntity)));
     }
 
@@ -90,5 +92,13 @@ public class PersonDTO {
 
     public void setHobbies(List<HobbyDTO> hobbies) {
         this.hobbies = hobbies;
+    }
+
+    public CityInfoDTO getCityInfoDTO() {
+        return cityInfoDTO;
+    }
+
+    public void setCityInfoDTO(CityInfoDTO cityInfoDTO) {
+        this.cityInfoDTO = cityInfoDTO;
     }
 }
