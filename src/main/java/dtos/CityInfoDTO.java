@@ -1,5 +1,7 @@
 package dtos;
 
+import entities.CityInfoEntity;
+
 import java.util.List;
 
 public class CityInfoDTO {
@@ -13,8 +15,13 @@ public class CityInfoDTO {
         this.addresses = addresses;
     }
 
-    public CityInfoDTO() {
+    public CityInfoDTO(CityInfoEntity cityInfoEntity) {
+        this.zipCode = cityInfoEntity.getZipCode();
+        this.city = cityInfoEntity.getCity();
+        cityInfoEntity.getAddresses().forEach((address) -> this.addresses.add(new AddressDTO(address)));
+    }
 
+    public CityInfoDTO() {
     }
 
     public String getZipCode() {
