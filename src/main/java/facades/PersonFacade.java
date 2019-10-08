@@ -1,6 +1,5 @@
 package facades;
 
-import dtos.AddressDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import dtos.PhoneDTO;
@@ -8,6 +7,7 @@ import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonFacade implements IPersonFacade {
@@ -31,27 +31,31 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public List<PersonEntity> getAllPersons() {
+    public List<PersonDTO> getAllPersons() {
         EntityManager entityManager = getEntityManager();
         try {
-            return entityManager.createNamedQuery("PersonEntity.getAllPersons", PersonEntity.class).getResultList();
+            List<PersonDTO> personDTOS = new ArrayList<>();
+            List<PersonEntity> personEntities = entityManager.createNamedQuery("PersonEntity.getAllPersons", PersonEntity.class).getResultList();
+            personEntities.forEach((personEntity -> personDTOS.add(new PersonDTO(personEntity))));
+            return personDTOS;
         } finally {
             entityManager.close();
         }
     }
 
     @Override
-    public PersonEntity getPersonByID(int id) {
+    public PersonDTO getPersonByID(int id) {
         EntityManager entityManager = getEntityManager();
         try {
-            return entityManager.find(PersonEntity.class, id);
+            PersonEntity personEntity = entityManager.find(PersonEntity.class, id);
+            return new PersonDTO(personEntity);
         } finally {
             entityManager.close();
         }
     }
 
     @Override
-    public PersonEntity createPerson(PersonDTO person) {
+    public PersonDTO createPerson(PersonDTO person) {
         EntityManager em = getEntityManager();
         PersonEntity personEntity = new PersonEntity();
         personEntity.setEmail(person.getEmail());
@@ -73,31 +77,32 @@ public class PersonFacade implements IPersonFacade {
         }
 
         CityInfoEntity cityInfo = new CityInfoEntity();
-        cityInfo.setCity(person.getAddress().getCity());
-        cityInfo.setZipCode(person.getAddress().getZipCode());
+        if (person.getCityInfoDTO() != null) {
+            cityInfo = new CityInfoEntity();
+            cityInfo.setCity(person.getCityInfoDTO().getCity());
+            cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
+        }
 
-        if (person.getAddress().getAddresses() != null) {
-            for (AddressDTO addressDTO: person.getAddress().getAddresses()) {
-                AddressEntity address = new AddressEntity();
-                address.setStreet(addressDTO.getStreet());
-                address.setAdditionalInfo(addressDTO.getAdditionalInfo());
-                personEntity.addAddress(address);
-                cityInfo.addAddress(address);
-            }
+        if (person.getAddress() != null) {
+            AddressEntity address = new AddressEntity();
+            address.setStreet(person.getAddress().getStreet());
+            address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
+            personEntity.addAddress(address);
+            cityInfo.addAddress(address);
         }
 
         try {
             em.getTransaction().begin();
             em.persist(personEntity);
             em.getTransaction().commit();
-            return personEntity;
+            return person;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public PersonEntity updatePerson(int id, PersonDTO person) {
+    public PersonDTO updatePerson(int id, PersonDTO person) {
         EntityManager em = getEntityManager();
         try {
             PersonEntity personEntity = em.find(PersonEntity.class, id);
@@ -120,23 +125,24 @@ public class PersonFacade implements IPersonFacade {
             }
 
             CityInfoEntity cityInfo = new CityInfoEntity();
-            cityInfo.setCity(person.getAddress().getCity());
-            cityInfo.setZipCode(person.getAddress().getZipCode());
+            if (person.getCityInfoDTO() != null) {
+                cityInfo = new CityInfoEntity();
+                cityInfo.setCity(person.getCityInfoDTO().getCity());
+                cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
+            }
 
-            if (person.getAddress().getAddresses() != null) {
-                for (AddressDTO addressDTO: person.getAddress().getAddresses()) {
-                    AddressEntity address = new AddressEntity();
-                    address.setStreet(addressDTO.getStreet());
-                    address.setAdditionalInfo(addressDTO.getAdditionalInfo());
-                    personEntity.addAddress(address);
-                    cityInfo.addAddress(address);
-                }
+            if (person.getAddress() != null) {
+                AddressEntity address = new AddressEntity();
+                address.setStreet(person.getAddress().getStreet());
+                address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
+                personEntity.addAddress(address);
+                cityInfo.addAddress(address);
             }
 
             em.getTransaction().begin();
             em.merge(personEntity);
             em.getTransaction().commit();
-            return personEntity;
+            return person;
         } finally {
             em.close();
         }

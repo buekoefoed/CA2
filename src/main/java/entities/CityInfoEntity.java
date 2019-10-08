@@ -53,4 +53,8 @@ public class CityInfoEntity implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
+
+    public List<AddressEntity> getAddresses() {
+        return addresses;
+    }
 }

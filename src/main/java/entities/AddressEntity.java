@@ -55,4 +55,8 @@ public class AddressEntity implements Serializable {
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
+
+    public CityInfoEntity getCityInfo() {
+        return cityInfo;
+    }
 }

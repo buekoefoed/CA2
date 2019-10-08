@@ -106,29 +106,29 @@ class PersonFacadeTest {
 
     @Test
     void getAllPersons() {
-        List<PersonEntity> personEntities = instance.getAllPersons();
-        assertEquals(2, personEntities.size());
+        List<PersonDTO> personDTOS = instance.getAllPersons();
+        assertEquals(2, personDTOS.size());
     }
 
     @Test
     void getPersonByID() {
-        PersonEntity personEntity = instance.getPersonByID(person1.getId());
-        assertEquals(person1.getFirstName(), personEntity.getFirstName());
+        PersonDTO personpersonDTO = instance.getPersonByID(person1.getId());
+        assertEquals(person1.getFirstName(), personpersonDTO.getFirstName());
     }
 
     @Test
     void createPerson() {
         PersonDTO personDTO = new PersonDTO("lol@lol.com", "Boris", "Benis");
-        PersonEntity personEntity = instance.createPerson(personDTO);
-        assertEquals(personDTO.getFirstName(), personEntity.getFirstName());
+        PersonDTO newPerson = instance.createPerson(personDTO);
+        assertEquals(personDTO.getFirstName(), newPerson.getFirstName());
         assertEquals(3, instance.getAllPersons().size());
     }
 
     @Test
     void updatePerson() {
         PersonDTO personDTO = new PersonDTO("zumba@lord.com", "Karen", "Fug");
-        person2 = instance.updatePerson(person2.getId(), personDTO);
-        assertEquals("Karen", person2.getFirstName());
+        PersonDTO personDTO1 = instance.updatePerson(person2.getId(), personDTO);
+        assertEquals("Karen", personDTO1.getFirstName());
     }
 
     @Test

@@ -1,5 +1,7 @@
 package dtos;
 
+import entities.PhoneEntity;
+
 public class PhoneDTO {
     private String number;
     private String description;
@@ -7,6 +9,11 @@ public class PhoneDTO {
     public PhoneDTO(String number, String description) {
         this.number = number;
         this.description = description;
+    }
+
+    public PhoneDTO(PhoneEntity phoneEntity) {
+        this.number = phoneEntity.getNumber();
+        this.description = phoneEntity.getDescription();
     }
 
     public String getNumber() {
