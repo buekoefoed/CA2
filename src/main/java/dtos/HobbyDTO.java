@@ -1,16 +1,19 @@
 package dtos;
 
 import entities.HobbyEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class HobbyDTO {
-
-
+    @Schema(required = true, example = "Butterfly breeding")
     private String name;
+    @Schema(required = true, example = "Nice")
     private String description;
 
     public HobbyDTO() {
@@ -61,13 +64,12 @@ public class HobbyDTO {
         if (!(o instanceof HobbyDTO)) return false;
         HobbyDTO hobbyDTO = (HobbyDTO) o;
         return Objects.equals(name, hobbyDTO.name) &&
-                Objects.equals(description, hobbyDTO.description) &&
-                Objects.equals(created, hobbyDTO.created) &&
-                Objects.equals(lastEdited, hobbyDTO.lastEdited);
+                Objects.equals(description, hobbyDTO.description);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, created, lastEdited);
+        return Objects.hash(name, description);
     }
 }
