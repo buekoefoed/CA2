@@ -34,4 +34,12 @@ public class AddressDTO {
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
+
+    @Override
+    public String toString() {
+        return "AddressDTO{" +
+                "street='" + street + '\'' +
+                ", additionalInfo='" + additionalInfo + '\'' +
+                '}';
+    }
 }

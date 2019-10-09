@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NamedQueries({
@@ -21,13 +22,13 @@ public class PersonEntity implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     @CascadeOnDelete
     private List<PhoneEntity> phones = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "person_hobby_LINKTABLE",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "hobby_id"))
@@ -94,5 +95,24 @@ public class PersonEntity implements Serializable {
 
     public List<HobbyEntity> getHobbies() {
         return hobbies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonEntity)) return false;
+        PersonEntity that = (PersonEntity) o;
+        return id == that.id &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(phones, that.phones) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(hobbies, that.hobbies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, firstName, lastName, phones, address, hobbies);
     }
 }

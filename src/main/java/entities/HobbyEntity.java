@@ -1,10 +1,13 @@
 package entities;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NamedQueries({@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity "),
@@ -21,12 +24,8 @@ public class HobbyEntity implements Serializable {
     private int id;
     private String name;
     private String description;
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "hobbies")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "hobbies")
     private List<PersonEntity> persons = new ArrayList<>();
-    @Temporal(TemporalType.DATE)
-    private Date created;
-    @Temporal(TemporalType.DATE)
-    private Date lastEdited;
 
     public HobbyEntity() {
     }
@@ -35,8 +34,6 @@ public class HobbyEntity implements Serializable {
         this.name = name;
         this.description = description;
         this.persons = persons;
-        this.created = created;
-        this.lastEdited = lastEdited;
     }
 
     public HobbyEntity(String name, String description) {
@@ -72,7 +69,18 @@ public class HobbyEntity implements Serializable {
         this.description = description;
     }
 
-    public void setLastEdited() {
-        this.lastEdited = new Date();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HobbyEntity)) return false;
+        HobbyEntity that = (HobbyEntity) o;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }

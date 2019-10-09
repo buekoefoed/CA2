@@ -6,6 +6,9 @@ public class PhoneDTO {
     private String number;
     private String description;
 
+    public PhoneDTO() {
+    }
+
     public PhoneDTO(String number, String description) {
         this.number = number;
         this.description = description;
@@ -30,5 +33,13 @@ public class PhoneDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "PhoneDTO{" +
+                "number='" + number + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

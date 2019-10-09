@@ -11,10 +11,9 @@ public class HobbyDTO {
 
     private String name;
     private String description;
-    @Temporal(TemporalType.DATE)
-    private Date created;
-    @Temporal(TemporalType.DATE)
-    private Date lastEdited;
+
+    public HobbyDTO() {
+    }
 
     public HobbyDTO(String name, String description) {
         this.name = name;
@@ -29,24 +28,6 @@ public class HobbyDTO {
     public HobbyDTO(String name, String description, Date created, Date lastEdited) {
         this.name = name;
         this.description = description;
-        this.created = created;
-        this.lastEdited = lastEdited;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getLastEdited() {
-        return lastEdited;
-    }
-
-    public void setLastEdited(Date lastEdited) {
-        this.lastEdited = lastEdited;
     }
 
     public String getName() {
@@ -63,5 +44,13 @@ public class HobbyDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "HobbyDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

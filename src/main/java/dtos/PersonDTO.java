@@ -1,19 +1,59 @@
 package dtos;
 
+import entities.HobbyEntity;
 import entities.PersonEntity;
 import entities.PhoneEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDTO {
+    @Schema(required = true, example = "email@email.com")
     private String email;
+    @Schema(required = true, example = "Lars")
     private String firstName;
+    @Schema(required = true, example = "Larsen")
     private String lastName;
-    private List<PhoneDTO> phones;
+    @Schema(example = " [\n" +
+            "    {\n" +
+            "      \"number\": \"1231421\",\n" +
+            "      \"description\": \"office\"\n" +
+            "    }\n" +
+            "  ]")
+    private List<PhoneDTO> phones = new ArrayList<>();
+    @Schema(example = "{\n" +
+            "    \"street\": \"Holkavej 3\",\n" +
+            "    \"additionalInfo\": \"Hvad du nu vil\"\n" +
+            "  }")
     private AddressDTO address;
+    @Schema(example = "{\n" +
+            "    \"zipCode\": \"3760\",\n" +
+            "    \"city\": \"Gudhjem\"\n" +
+            "  }")
     private CityInfoDTO cityInfoDTO;
-    private List<HobbyDTO> hobbies;
+    @Schema(example = "[\n" +
+            "    {\n" +
+            "      \"name\": \"Fodbold\",\n" +
+            "      \"description\": \"Fod til bold\",\n" +
+            "    }\n" +
+            "  ]")
+    private List<HobbyDTO> hobbyDTOS = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phones=" + phones.toString() +
+                ", address=" + address.toString() +
+                ", cityInfoDTO=" + cityInfoDTO.toString() +
+                ", hobbies=" + hobbyDTOS.toString() +
+                '}';
+    }
+
+
 
     public PersonDTO(String email, String firstName, String lastName, List<PhoneDTO> phones, AddressDTO address, List<HobbyDTO> hobbies) {
         this.email = email;
@@ -21,7 +61,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = phones;
         this.address = address;
-        this.hobbies = hobbies;
+        this.hobbyDTOS = hobbies;
     }
 
     public PersonDTO(String email, String firstName, String lastName) {
@@ -30,7 +70,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = new ArrayList<>();
         this.address = new AddressDTO();
-        this.hobbies = new ArrayList<>();
+        this.hobbyDTOS = new ArrayList<>();
     }
 
     public PersonDTO() {
@@ -40,10 +80,14 @@ public class PersonDTO {
         this.email = personEntity.getEmail();
         this.firstName = personEntity.getFirstName();
         this.lastName = personEntity.getLastName();
-        personEntity.getPhones().forEach(phoneEntity -> this.phones.add(new PhoneDTO(phoneEntity)));
+        for (PhoneEntity phoneEntity : personEntity.getPhones()) {
+            this.phones.add(new PhoneDTO(phoneEntity));
+        }
         this.address = new AddressDTO(personEntity.getAddress());
         this.cityInfoDTO = new CityInfoDTO(personEntity.getAddress().getCityInfo());
-        personEntity.getHobbies().forEach(hobbyEntity -> this.hobbies.add(new HobbyDTO(hobbyEntity)));
+        for (HobbyEntity hobbyEntity : personEntity.getHobbies()) {
+                this.hobbyDTOS.add(new HobbyDTO(hobbyEntity));
+        }
     }
 
     public String getEmail() {
@@ -87,11 +131,11 @@ public class PersonDTO {
     }
 
     public List<HobbyDTO> getHobbies() {
-        return hobbies;
+        return hobbyDTOS;
     }
 
     public void setHobbies(List<HobbyDTO> hobbies) {
-        this.hobbies = hobbies;
+        this.hobbyDTOS = hobbies;
     }
 
     public CityInfoDTO getCityInfoDTO() {
