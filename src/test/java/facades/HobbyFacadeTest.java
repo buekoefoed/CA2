@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-@Disabled
+//@Disabled
 class HobbyFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -26,12 +26,12 @@ class HobbyFacadeTest {
 
     @BeforeAll
     public static void setUpClass() {
-//        emf = EMF_Creator.createEntityManagerFactory(
-//                "pu",
-//                "jdbc:mysql://localhost:3307/ca2_test",
-//                "dev",
-//                "ax2",
-//                EMF_Creator.Strategy.DROP_AND_CREATE);
+        emf = EMF_Creator.createEntityManagerFactory(
+                "pu",
+                "jdbc:mysql://localhost:3307/ca2_test",
+                "dev",
+                "ax2",
+                EMF_Creator.Strategy.DROP_AND_CREATE);
         //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.DROP_AND_CREATE);
         facade = HobbyFacade.getHobbyFacade(emf);
@@ -75,47 +75,47 @@ class HobbyFacadeTest {
         // Remove any data after each test was run
     }
 
-//    @Test
-//    void getAllHobbies() {
-//        List<HobbyDTO> hobbyEntityList = facade.getAllHobbies();
-//        assertEquals(3, hobbyEntityList.size(),
-//                "Assert that you get all hobbies");
-//    }
+    @Test
+    void getAllHobbies() {
+        List<HobbyDTO> hobbyEntityList = facade.getAllHobbies();
+        assertEquals(3, hobbyEntityList.size(),
+                "Assert that you get all hobbies");
+    }
 
-//    @Test
-//    void getAllPersonsByHobby() {
-//
-//    }
-//
-//    @Test
-//    void getPersonCountByHobby() {
-//
-//    }
-//
-//    @Test
-//    void createHobby() throws HobbyNotFoundException {
-//        HobbyDTO hobbyDTO = new HobbyDTO("Music", "Music");
-//        HobbyDTO newHobby = facade.createHobby(hobbyDTO);
-//        assertEquals(hobbyDTO.getName(), newHobby.getName());
-//        assertEquals(3, facade.getAllHobbies().size());
-//    }
-//
-//    @Test
-//    void updateHobby() throws HobbyNotFoundException {
-//
-//        HobbyDTO hobbyDTO = new HobbyDTO("Butterfly breeding","Fun in the sun with butterflies");
-//        HobbyDTO hobbyDTO1 = facade.updateHobby(h2.getId(), hobbyDTO);
-//        assertEquals("Butterfly breeding", hobbyDTO1.getName());
-//    }
-//
-//    @Test
-//    void deleteHobby() throws HobbyNotFoundException {
-//        int i = h1.getId();
-//        HobbyDTO hobby = facade.deleteHobby(i);
-//        assertEquals("Procrastination", hobby.getName(),
-//                "Assert that deleted hobby is procrastination");
-//        assertEquals(facade.getAllHobbies().size(), 2,
-//                "Assert that there's only 2 hobbies left");
-//
-//    }
+    @Test
+    void getAllPersonsByHobby() {
+
+    }
+
+    @Test
+    void getPersonCountByHobby() {
+
+    }
+
+    @Test
+    void createHobby() throws HobbyNotFoundException {
+        HobbyDTO hobbyDTO = new HobbyDTO("Music", "Music");
+        HobbyDTO newHobby = facade.createHobby(hobbyDTO);
+        assertEquals(hobbyDTO.getName(), newHobby.getName());
+        assertEquals(4, facade.getAllHobbies().size());
+    }
+
+    @Test
+    void updateHobby() throws HobbyNotFoundException {
+
+        HobbyDTO hobbyDTO = new HobbyDTO("Butterfly breeding","Fun in the sun with butterflies");
+        HobbyDTO hobbyDTO1 = facade.updateHobby(h2.getId(), hobbyDTO);
+        assertEquals("Butterfly breeding", hobbyDTO1.getName());
+    }
+
+    @Test
+    void deleteHobby() throws HobbyNotFoundException {
+        int i = h1.getId();
+        HobbyDTO hobby = facade.deleteHobby(i);
+        assertEquals("Procrastination", hobby.getName(),
+                "Assert that deleted hobby is procrastination");
+        assertEquals(facade.getAllHobbies().size(), 2,
+                "Assert that there's only 2 hobbies left");
+
+    }
 }

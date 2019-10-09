@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @NamedQueries({@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity "),
 @NamedQuery(name = "HobbyEntity.getAllHobbies", query = "select h from HobbyEntity h"),
-@NamedQuery(name = "", query = "")
 
 })
 

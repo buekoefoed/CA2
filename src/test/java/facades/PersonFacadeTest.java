@@ -123,7 +123,7 @@ class PersonFacadeTest {
         PersonDTO personDTO = new PersonDTO("lol@lol.com", "Boris", "Benis");
         PersonDTO newPerson = instance.createPerson(personDTO);
         assertEquals(personDTO.getFirstName(), newPerson.getFirstName());
-        assertEquals(3, instance.getAllPersons().size());
+        assertEquals(4, instance.getAllPersons().size());
     }
 
     @Test
