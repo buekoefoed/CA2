@@ -3,11 +3,13 @@ package dtos;
 import entities.HobbyEntity;
 import entities.PersonEntity;
 import entities.PhoneEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDTO {
+    @Schema(required = true, example = "email@email.com")
     private String email;
     private String firstName;
     private String lastName;
