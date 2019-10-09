@@ -12,14 +12,12 @@ import java.util.List;
 
 public class CityFacade implements ICityFacade {
 
-
     private static CityFacade instance;
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
     private CityFacade() {
     }
-
 
     /**
      * @param _emf
@@ -36,7 +34,6 @@ public class CityFacade implements ICityFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
 
     @Override
     public List<CityInfoDTO> getAllCities() {
