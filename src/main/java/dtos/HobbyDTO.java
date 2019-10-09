@@ -12,10 +12,6 @@ public class HobbyDTO {
 
     private String name;
     private String description;
-    @Temporal(TemporalType.DATE)
-    private Date created;
-    @Temporal(TemporalType.DATE)
-    private Date lastEdited;
 
     public HobbyDTO(String name, String description) {
         this.name = name;
@@ -30,24 +26,6 @@ public class HobbyDTO {
     public HobbyDTO(String name, String description, Date created, Date lastEdited) {
         this.name = name;
         this.description = description;
-        this.created = created;
-        this.lastEdited = lastEdited;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getLastEdited() {
-        return lastEdited;
-    }
-
-    public void setLastEdited(Date lastEdited) {
-        this.lastEdited = lastEdited;
     }
 
     public String getName() {
@@ -80,13 +58,11 @@ public class HobbyDTO {
         if (!(o instanceof HobbyDTO)) return false;
         HobbyDTO hobbyDTO = (HobbyDTO) o;
         return Objects.equals(name, hobbyDTO.name) &&
-                Objects.equals(description, hobbyDTO.description) &&
-                Objects.equals(created, hobbyDTO.created) &&
-                Objects.equals(lastEdited, hobbyDTO.lastEdited);
+                Objects.equals(description, hobbyDTO.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, created, lastEdited);
+        return Objects.hash(name, description);
     }
 }

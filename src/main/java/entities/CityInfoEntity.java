@@ -18,7 +18,7 @@ import java.util.Objects;
         @NamedQuery(name = "CityInfoEntity.getAllRowsWhereZipCode",
                 query = "SELECT p FROM PersonEntity p WHERE p.address.cityInfo.zipCode = :zipCode"),
         @NamedQuery(name = "CityInfoEntity.getAllRowsWhereCount",
-                query = "SELECT c FROM AddressEntity a INNER JOIN PersonEntity p INNER JOIN CityInfoEntity c GROUP BY c.id HAVING COUNT(p) > :num"),
+                query = "SELECT c FROM CityInfoEntity c JOIN c.addresses a JOIN a.persons p GROUP BY c.id HAVING COUNT(p) > :num"),
         @NamedQuery(name = "CityInfoEntity.deleteAllRows",
                 query = "DELETE FROM CityInfoEntity")
 })

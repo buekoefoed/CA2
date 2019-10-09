@@ -81,7 +81,6 @@ public class HobbyFacade implements IHobbyFacade {
         }
         newHobby.setDescription(hobby.getDescription());
         newHobby.setName(hobby.getName());
-        newHobby.setLastEdited();
         try {
             em.getTransaction().begin();
             em.persist(newHobby);
@@ -101,7 +100,6 @@ public class HobbyFacade implements IHobbyFacade {
         }
         hobbyUpdate.setName(hobby.getName());
         hobbyUpdate.setDescription(hobby.getDescription());
-        hobbyUpdate.setLastEdited();
         try {
             em.getTransaction().begin();
             em.merge(hobbyUpdate);
