@@ -15,6 +15,7 @@
 
 # Generated files
 .idea/**/contentModel.xml
+/target
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
@@ -152,5 +153,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/linux,windows,intellij,netbeans,visualstudiocodetarget\
-target\
+# End of https://www.gitignore.io/api/linux,windows,intellij,netbeans,visualstudiocode
