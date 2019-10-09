@@ -25,7 +25,7 @@ public class PersonEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     @CascadeOnDelete
     private List<PhoneEntity> phones = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "persons")

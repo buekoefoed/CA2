@@ -101,7 +101,7 @@ public class PersonFacade implements IPersonFacade {
             }
         }
 
-        AddressEntity address = new AddressEntity();
+        AddressEntity address;
         if (person.getAddress() != null) {
             try {
                 address = em.createQuery("select a from AddressEntity a where a.street = :street and a.additionalInfo = :additionalInfo", AddressEntity.class)
@@ -109,16 +109,13 @@ public class PersonFacade implements IPersonFacade {
                         .setParameter("additionalInfo", person.getAddress().getAdditionalInfo())
                         .getSingleResult();
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (address == null) {
                 address = new AddressEntity();
                 address.setStreet(person.getAddress().getStreet());
                 address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
             }
+            personEntity.addAddress(address);
+            cityInfo.addAddress(address);
         }
-        personEntity.addAddress(address);
-        cityInfo.addAddress(address);
         try {
             em.getTransaction().begin();
             em.persist(personEntity);
