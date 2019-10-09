@@ -63,18 +63,19 @@ public class PersonFacade implements IPersonFacade {
         personEntity.setLastName(person.getLastName());
 
         for (HobbyDTO hobbyDTO : person.getHobbies()) {
+            HobbyEntity hobbyEntity = null;
             try {
-                HobbyEntity hobbyEntity = em.createQuery("select h from HobbyEntity h where h.name = :name", HobbyEntity.class).setParameter("name", hobbyDTO.getName()).getSingleResult();
-                if (hobbyEntity != null) {
-                    personEntity.addHobby(hobbyEntity);
-                } else {
-                    HobbyEntity hobby = new HobbyEntity();
-                    hobby.setName(hobbyDTO.getName());
-                    hobby.setDescription(hobbyDTO.getDescription());
-                    personEntity.addHobby(hobby);
-                }
-            } finally {
-                em.close();
+                hobbyEntity = em.createQuery("select h from HobbyEntity h where h.name = :name", HobbyEntity.class).setParameter("name", hobbyDTO.getName()).getSingleResult();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (hobbyEntity != null) {
+                personEntity.addHobby(hobbyEntity);
+            } else {
+                HobbyEntity hobby = new HobbyEntity();
+                hobby.setName(hobbyDTO.getName());
+                hobby.setDescription(hobbyDTO.getDescription());
+                personEntity.addHobby(hobby);
             }
         }
 
@@ -87,19 +88,39 @@ public class PersonFacade implements IPersonFacade {
 
         CityInfoEntity cityInfo = new CityInfoEntity();
         if (person.getCityInfoDTO() != null) {
-            cityInfo = new CityInfoEntity();
-            cityInfo.setCity(person.getCityInfoDTO().getCity());
-            cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
+            try {
+                cityInfo = em.createQuery("select c from CityInfoEntity c where c.city = :city and c.zipCode = :zipCode", CityInfoEntity.class)
+                        .setParameter("city", person.getCityInfoDTO().getCity())
+                        .setParameter("zipCode", person.getCityInfoDTO().getZipCode())
+                        .getSingleResult();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (cityInfo == null) {
+                cityInfo = new CityInfoEntity();
+                cityInfo.setCity(person.getCityInfoDTO().getCity());
+                cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
+            }
         }
 
+        AddressEntity address = new AddressEntity();
         if (person.getAddress() != null) {
-            AddressEntity address = new AddressEntity();
-            address.setStreet(person.getAddress().getStreet());
-            address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
-            personEntity.addAddress(address);
-            cityInfo.addAddress(address);
+            try {
+                address = em.createQuery("select a from AddressEntity a where a.street = :street and a.additionalInfo = :additionalInfo", AddressEntity.class)
+                        .setParameter("street", person.getAddress().getStreet())
+                        .setParameter("additionalInfo", person.getAddress().getAdditionalInfo())
+                        .getSingleResult();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (address == null) {
+                address = new AddressEntity();
+                address.setStreet(person.getAddress().getStreet());
+                address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
+            }
         }
-
+        personEntity.addAddress(address);
+        cityInfo.addAddress(address);
         try {
             em.getTransaction().begin();
             em.persist(personEntity);
