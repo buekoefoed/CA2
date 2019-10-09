@@ -3,6 +3,7 @@ package dtos;
 import entities.CityInfoEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CityInfoDTO {
     private String zipCode;
@@ -43,5 +44,19 @@ public class CityInfoDTO {
                 "zipCode='" + zipCode + '\'' +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CityInfoDTO)) return false;
+        CityInfoDTO that = (CityInfoDTO) o;
+        return Objects.equals(zipCode, that.zipCode) &&
+                Objects.equals(city, that.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(zipCode, city);
     }
 }

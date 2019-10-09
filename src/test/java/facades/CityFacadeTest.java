@@ -2,6 +2,7 @@ package facades;
 
 import dtos.AddressDTO;
 import dtos.CityInfoDTO;
+import dtos.PersonDTO;
 import entities.*;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
@@ -9,7 +10,6 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,6 +24,8 @@ class CityFacadeTest {
     private static CityFacade facade;
     private static PersonEntity p1, p2, p3;
     private static CityInfoEntity c1, c2, c3;
+    private static PersonDTO p1DTO, p2DTO, p3DTO;
+    private static CityInfoDTO c1DTO, c2DTO, c3DTO;
 
     public CityFacadeTest() {
     }
@@ -121,6 +123,14 @@ class CityFacadeTest {
         c1.addAddress(a1);
         c2.addAddress(a2);
         c3.addAddress(a3);
+
+        p1DTO = new PersonDTO(p1);
+        p2DTO = new PersonDTO(p2);
+        p3DTO = new PersonDTO(p3);
+
+        c1DTO = new CityInfoDTO(c1);
+        c2DTO = new CityInfoDTO(c2);
+        c3DTO = new CityInfoDTO(c3);
         // </editor-fold>
 
         try {
@@ -149,26 +159,26 @@ class CityFacadeTest {
 
     @Test
     void getAllCities() {
-        List<CityInfoEntity> cities = facade.getAllCities();
-        assertThat(cities, containsInAnyOrder(c1, c2, c3));
+        List<CityInfoDTO> cities = facade.getAllCities();
+        assertThat(cities, containsInAnyOrder(c1DTO, c2DTO, c3DTO));
         assertEquals(3, cities.size());
     }
 
     @Test
     void getPersonsByCity() {
-        List<PersonEntity> persons = facade.getPersonsByCity("Rønne");
-        assertEquals(p1, persons.get(0));
+        List<PersonDTO> persons = facade.getPersonsByCity("Rønne");
+        assertEquals(p1DTO, persons.get(0));
     }
 
     @Test
     void getPersonsByZipCode() {
-        List<PersonEntity> persons = facade.getPersonsByZipCode("3770");
-        assertEquals(p2, persons.get(0));
+        List<PersonDTO> persons = facade.getPersonsByZipCode("3770");
+        assertEquals(p2DTO, persons.get(0));
     }
 
     @Test
     void getCitiesByCount() {
-        List<CityInfoEntity> cities = facade.getCitiesByCount(0);
+        List<CityInfoDTO> cities = facade.getCitiesByCount(0);
         assertEquals(3, cities.size());
     }
 
@@ -178,9 +188,9 @@ class CityFacadeTest {
         cityDTO.setZipCode("2500");
         cityDTO.setCity("Valby");
 
-        CityInfoEntity city = facade.createCity(cityDTO);
-        List<CityInfoEntity> cities = facade.getAllCities();
-        assertThat(cities, containsInAnyOrder(c1, c2, c3, city));
+        CityInfoDTO city = facade.createCity(cityDTO);
+        List<CityInfoDTO> cities = facade.getAllCities();
+        assertThat(cities, containsInAnyOrder(c1DTO, c2DTO, c3DTO, city));
     }
 
     @Test
@@ -202,9 +212,9 @@ class CityFacadeTest {
     @Test
     void deleteCity() {
         facade.deleteCity(c1.getId());
-        List<CityInfoEntity> cities = facade.getAllCities();
+        List<CityInfoDTO> cities = facade.getAllCities();
         assertEquals(2, cities.size());
-        assertThat(cities, containsInAnyOrder(c2, c3));
-        assertThat(cities, not(contains(c1)));
+        assertThat(cities, containsInAnyOrder(c2DTO, c3DTO));
+        assertThat(cities, not(contains(c1DTO)));
     }
 }

@@ -2,6 +2,8 @@ package dtos;
 
 import entities.PhoneEntity;
 
+import java.util.Objects;
+
 public class PhoneDTO {
     private String number;
     private String description;
@@ -38,5 +40,19 @@ public class PhoneDTO {
                 "number='" + number + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhoneDTO)) return false;
+        PhoneDTO phoneDTO = (PhoneDTO) o;
+        return Objects.equals(number, phoneDTO.number) &&
+                Objects.equals(description, phoneDTO.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, description);
     }
 }

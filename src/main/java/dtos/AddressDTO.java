@@ -2,6 +2,8 @@ package dtos;
 
 import entities.AddressEntity;
 
+import java.util.Objects;
+
 public class AddressDTO {
     private String street;
     private String additionalInfo;
@@ -41,5 +43,19 @@ public class AddressDTO {
                 "street='" + street + '\'' +
                 ", additionalInfo='" + additionalInfo + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDTO)) return false;
+        AddressDTO that = (AddressDTO) o;
+        return Objects.equals(street, that.street) &&
+                Objects.equals(additionalInfo, that.additionalInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(street, additionalInfo);
     }
 }

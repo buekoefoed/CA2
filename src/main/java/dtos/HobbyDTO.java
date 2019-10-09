@@ -5,6 +5,7 @@ import entities.HobbyEntity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.Objects;
 
 public class HobbyDTO {
 
@@ -71,5 +72,21 @@ public class HobbyDTO {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HobbyDTO)) return false;
+        HobbyDTO hobbyDTO = (HobbyDTO) o;
+        return Objects.equals(name, hobbyDTO.name) &&
+                Objects.equals(description, hobbyDTO.description) &&
+                Objects.equals(created, hobbyDTO.created) &&
+                Objects.equals(lastEdited, hobbyDTO.lastEdited);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, created, lastEdited);
     }
 }
