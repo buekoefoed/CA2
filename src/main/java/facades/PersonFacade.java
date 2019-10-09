@@ -1,14 +1,10 @@
 package facades;
 
-import dtos.HobbyDTO;
-import dtos.PersonDTO;
-import dtos.PhoneDTO;
+import dtos.*;
 import entities.*;
-import errorhandling.GenericExceptionMapper;
-import errorhandling.PersonNotFoundException;
+import errorhandling.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,19 +138,136 @@ public class PersonFacade implements IPersonFacade {
         if (personEntity == null) {
             throw new PersonNotFoundException("Person not found");
         }
-        personEntity.setEmail(person.getEmail());
-        personEntity.setFirstName(person.getFirstName());
-        personEntity.setLastName(person.getLastName());
-
-        try {
-            em.getTransaction().begin();
-            em.merge(personEntity);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
+        if (person.getEmail() != null) {
+            personEntity.setEmail(person.getEmail());
         }
-        return person;
+        if (person.getFirstName() != null) {
+            personEntity.setFirstName(person.getFirstName());
+        }
+        if (person.getLastName() != null) {
+            personEntity.setLastName(person.getLastName());
+        }
+        if (person.getPhones() != null) {
+            for (PhoneDTO phone : person.getPhones()) {
+                PhoneEntity phoneEntity;
+                try {
+                    phoneEntity = findPhone(phone);
+                    phoneEntity = em.merge(phoneEntity);
+                } catch (PhoneNotFoundException e) {
+                    phoneEntity = new PhoneEntity(phone.getNumber(), phone.getDescription());
+                    em.persist(phoneEntity);
+                }
+                if (!personEntity.getPhones().contains(phoneEntity)) {
+                    personEntity.addPhone(phoneEntity);
+                }
+            }
+        }
+        CityInfoEntity cityInfoEntity = new CityInfoEntity();
+        if (person.getCityInfoDTO() != null) {
+            try {
+                cityInfoEntity = findCityInfoEntity(person.getCityInfoDTO());
+                cityInfoEntity = em.merge(cityInfoEntity);
+            } catch (CityInfoEntityNotFoundException e) {
+                cityInfoEntity = new CityInfoEntity(person.getCityInfoDTO().getCity(), person.getCityInfoDTO().getZipCode());
+                em.persist(cityInfoEntity);
+            }
+        }
+        AddressEntity addressEntity = new AddressEntity();
+        if (person.getAddress() != null) {
+            try {
+                addressEntity = findAddressEntity(person.getAddress());
+                addressEntity = em.merge(addressEntity);
+            } catch (AddressNotFoundException e) {
+                addressEntity = new AddressEntity(person.getAddress().getStreet(), person.getAddress().getAdditionalInfo());
+                em.persist(addressEntity);
+            }
+        }
+        personEntity.setAddress(addressEntity);
+        cityInfoEntity.addAddress(addressEntity);
+        if (person.getHobbies() != null) {
+            for (HobbyDTO hobbyDTO : person.getHobbies()) {
+                HobbyEntity hobbyEntity;
+                try {
+                    hobbyEntity = findHobbyEntity(hobbyDTO);
+                    hobbyEntity = em.merge(hobbyEntity);
+                } catch (HobbyNotFoundException e) {
+                    hobbyEntity = new HobbyEntity(hobbyDTO.getName(), hobbyDTO.getDescription());
+                    em.persist(hobbyEntity);
+                }
+                if (!personEntity.getHobbies().contains(hobbyEntity)) {
+                    personEntity.addHobby(hobbyEntity);
+                }
+            }
+        }
+        PersonEntity mergedPerson = em.merge(personEntity);
+        em.getTransaction().commit();
+        System.out.println("sup bitch");
+        em.close();
+        return new PersonDTO(mergedPerson);
+    }
 
+    private HobbyEntity findHobbyEntity(HobbyDTO hobbyDTO) throws HobbyNotFoundException {
+        EntityManager entityManager = getEntityManager();
+        HobbyEntity hobbyEntity;
+        TypedQuery<HobbyEntity> query = entityManager.createQuery("select h from HobbyEntity h where h.name = :name and h.description = :desc", HobbyEntity.class)
+                .setParameter("name", hobbyDTO.getName())
+                .setParameter("desc", hobbyDTO.getDescription());
+        try {
+            hobbyEntity = query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            return query.getResultList().get(1);
+        } catch (NoResultException e) {
+            throw new HobbyNotFoundException("Hobby not found");
+        }
+        return hobbyEntity;
+    }
+
+    private AddressEntity findAddressEntity(AddressDTO address) throws AddressNotFoundException {
+        EntityManager entityManager = getEntityManager();
+        AddressEntity addressEntity;
+        TypedQuery<AddressEntity> query = entityManager.createQuery("select a from AddressEntity a where a.street = :street and a.additionalInfo = :info", AddressEntity.class)
+                .setParameter("street", address.getStreet())
+                .setParameter("info", address.getAdditionalInfo());
+        try {
+            addressEntity = query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            return query.getResultList().get(1);
+        } catch (NoResultException e) {
+            throw new AddressNotFoundException("No address found");
+        }
+        return addressEntity;
+    }
+
+    private CityInfoEntity findCityInfoEntity(CityInfoDTO cityInfoDTO) throws CityInfoEntityNotFoundException {
+        EntityManager entityManager = getEntityManager();
+        CityInfoEntity cityInfoEntity;
+        TypedQuery<CityInfoEntity> query = entityManager.createQuery("select c from CityInfoEntity c where c.city = :city and c.zipCode = :zip", CityInfoEntity.class)
+                .setParameter("city", cityInfoDTO.getCity())
+                .setParameter("zip", cityInfoDTO.getZipCode());
+        try {
+            cityInfoEntity = query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            return query.getResultList().get(1);
+        } catch (NoResultException e) {
+            throw new CityInfoEntityNotFoundException("No city info found");
+        }
+        return cityInfoEntity;
+    }
+
+    private PhoneEntity findPhone(PhoneDTO phoneDTO) throws PhoneNotFoundException {
+        EntityManager entityManager = getEntityManager();
+        PhoneEntity phoneEntity;
+        TypedQuery<PhoneEntity> query = entityManager.createQuery("select p from PhoneEntity p where p.description = :desc and p.number = :num", PhoneEntity.class)
+                .setParameter("desc", phoneDTO.getDescription())
+                .setParameter("num", phoneDTO.getNumber());
+        try {
+            phoneEntity = query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            return query.getResultList().get(1);
+        } catch (NoResultException e) {
+            throw new PhoneNotFoundException("No address found");
+        }
+        return phoneEntity;
     }
 
     @Override

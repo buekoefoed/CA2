@@ -28,10 +28,7 @@ public class PersonEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "person_hobby_LINKTABLE",
-            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "hobby_id"))
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "persons")
     private List<HobbyEntity> hobbies = new ArrayList<>();
 
     public PersonEntity() {
@@ -113,5 +110,9 @@ public class PersonEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, firstName, lastName, phones, address, hobbies);
+    }
+
+    public void setAddress(AddressEntity addressEntity) {
+        this.address = addressEntity;
     }
 }
