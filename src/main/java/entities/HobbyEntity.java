@@ -26,10 +26,6 @@ public class HobbyEntity implements Serializable {
     private String description;
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "hobbies")
     private List<PersonEntity> persons = new ArrayList<>();
-    @Temporal(TemporalType.DATE)
-    private Date created;
-    @Temporal(TemporalType.DATE)
-    private Date lastEdited;
 
     public HobbyEntity() {
     }
@@ -38,8 +34,6 @@ public class HobbyEntity implements Serializable {
         this.name = name;
         this.description = description;
         this.persons = persons;
-        this.created = created;
-        this.lastEdited = lastEdited;
     }
 
     public HobbyEntity(String name, String description) {
@@ -73,10 +67,6 @@ public class HobbyEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setLastEdited() {
-        this.lastEdited = new Date();
     }
 
     @Override

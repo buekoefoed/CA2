@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -147,15 +148,18 @@ public class HobbyResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
+    @Operation(summary = "Add person",
             tags = {"person"},
             responses = {
                     @ApiResponse(
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
-    public String createPerson(String person) {
-        return "PersonDTO with ID from DB";
+                    @ApiResponse(responseCode = "200", description = "Person added"),
+                    @ApiResponse(responseCode = "400", description = "Person not added")})
+    public String createPerson(@RequestBody(description = "PersonDTO object that needs to be added to the store",
+            required = true,
+            content = @Content(schema = @Schema(implementation = PersonDTO.class))) PersonDTO content) {
+        PersonDTO personDTO = PERSON_FACADE.createPerson(content);
+        return GSON.toJson(personDTO);
     }
 
     @Path("hobby")
