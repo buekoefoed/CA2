@@ -5,11 +5,16 @@ import org.eclipse.persistence.annotations.CascadeOnDelete;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity ")
+@NamedQueries({@NamedQuery(name = "HobbyEntity.deleteAllRows", query = "DELETE from HobbyEntity "),
+@NamedQuery(name = "HobbyEntity.getAllHobbies", query = "select h from HobbyEntity h"),
+
+})
+
 public class HobbyEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,8 +26,25 @@ public class HobbyEntity implements Serializable {
     private String description;
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "hobbies")
     private List<PersonEntity> persons = new ArrayList<>();
+    @Temporal(TemporalType.DATE)
+    private Date created;
+    @Temporal(TemporalType.DATE)
+    private Date lastEdited;
 
     public HobbyEntity() {
+    }
+
+    public HobbyEntity(String name, String description, List<PersonEntity> persons, Date created, Date lastEdited) {
+        this.name = name;
+        this.description = description;
+        this.persons = persons;
+        this.created = created;
+        this.lastEdited = lastEdited;
+    }
+
+    public HobbyEntity(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
     public void addPerson(PersonEntity person) {
@@ -51,6 +73,10 @@ public class HobbyEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setLastEdited() {
+        this.lastEdited = new Date();
     }
 
     @Override

@@ -10,9 +10,9 @@ import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+//@Disabled
 class PersonFacadeTest {
 
     private static EntityManagerFactory emf;

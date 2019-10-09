@@ -1,23 +1,25 @@
 package facades;
 
 import dtos.HobbyDTO;
+import dtos.PersonDTO;
 import entities.HobbyEntity;
 import entities.PersonEntity;
+import errorhandling.HobbyNotFoundException;
 
 import java.util.List;
 
 public interface IHobbyFacade {
 
-    List<HobbyEntity> getAllHobbies();
+    List<HobbyDTO> getAllHobbies();
 
-    List<PersonEntity> getAllPersonsByHobby(String hobby);
+    List<PersonDTO> getAllPersonsByHobby(String hobby);
 
     int getPersonCountByHobby(String hobby);
 
-    HobbyEntity createHobby(HobbyDTO hobby);
+    HobbyDTO createHobby(HobbyDTO hobby) throws HobbyNotFoundException;
 
-    HobbyEntity updateHobby(int id, HobbyDTO hobby);
+    HobbyDTO updateHobby(int id, HobbyDTO hobby) throws HobbyNotFoundException;
 
-    HobbyEntity deleteHobby(int id);
+    HobbyDTO deleteHobby(int id) throws HobbyNotFoundException;
 
 }
