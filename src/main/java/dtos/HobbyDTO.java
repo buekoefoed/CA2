@@ -1,17 +1,23 @@
 package dtos;
 
 import entities.HobbyEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class HobbyDTO {
-
-
+    @Schema(required = true, example = "Butterfly breeding")
     private String name;
+    @Schema(required = true, example = "Nice")
     private String description;
+
+    public HobbyDTO() {
+    }
 
     public HobbyDTO(String name, String description) {
         this.name = name;

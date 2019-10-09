@@ -7,7 +7,6 @@ import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,10 +63,19 @@ public class PersonFacade implements IPersonFacade {
         personEntity.setLastName(person.getLastName());
 
         for (HobbyDTO hobbyDTO : person.getHobbies()) {
-            HobbyEntity hobby = new HobbyEntity();
-            hobby.setName(hobbyDTO.getName());
-            hobby.setDescription(hobbyDTO.getDescription());
-            personEntity.addHobby(hobby);
+            try {
+                HobbyEntity hobbyEntity = em.createQuery("select h from HobbyEntity h where h.name = :name", HobbyEntity.class).setParameter("name", hobbyDTO.getName()).getSingleResult();
+                if (hobbyEntity != null) {
+                    personEntity.addHobby(hobbyEntity);
+                } else {
+                    HobbyEntity hobby = new HobbyEntity();
+                    hobby.setName(hobbyDTO.getName());
+                    hobby.setDescription(hobbyDTO.getDescription());
+                    personEntity.addHobby(hobby);
+                }
+            } finally {
+                em.close();
+            }
         }
 
         for (PhoneDTO phoneDTO : person.getPhones()) {

@@ -8,7 +8,6 @@ import errorhandling.HobbyNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,19 +53,24 @@ public class HobbyFacade implements IHobbyFacade {
     public List<PersonDTO> getAllPersonsByHobby(String hobby) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createQuery("SELECT pe from PersonEntity pe where pe.hobbies=:arg1");
-            query.setParameter("arg1", hobby);
-            return query.getResultList();
+            List<PersonDTO> personDTOS = new ArrayList<>();
+            List<PersonEntity> personEntities = em.createQuery("SELECT p from PersonEntity p join p.hobbies h where h.name = :name", PersonEntity.class)
+            .setParameter("name", hobby)
+            .getResultList();
+            personEntities.forEach(personEntity -> personDTOS.add(new PersonDTO(personEntity)));
+            return personDTOS;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public int getPersonCountByHobby(String hobby) {
+    public String getPersonCountByHobby(String hobby) {
         EntityManager em = getEntityManager();
         try {
-            return (int) em.createQuery("SELECT COUNT(r) FROM HobbyEntity r").getSingleResult();
+            return String.valueOf(em.createQuery("SELECT COUNT(p) FROM HobbyEntity h join h.persons p where h.name = :name")
+                    .setParameter("name",hobby)
+                    .getSingleResult());
         } finally {
             em.close();
         }

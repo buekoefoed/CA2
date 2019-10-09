@@ -12,11 +12,33 @@ import java.util.Objects;
 public class PersonDTO {
     @Schema(required = true, example = "email@email.com")
     private String email;
+    @Schema(required = true, example = "Lars")
     private String firstName;
+    @Schema(required = true, example = "Larsen")
     private String lastName;
+    @Schema(example = " [\n" +
+            "    {\n" +
+            "      \"number\": \"1231421\",\n" +
+            "      \"description\": \"office\"\n" +
+            "    }\n" +
+            "  ]")
     private List<PhoneDTO> phones = new ArrayList<>();
+    @Schema(example = "{\n" +
+            "    \"street\": \"Holkavej 3\",\n" +
+            "    \"additionalInfo\": \"Hvad du nu vil\"\n" +
+            "  }")
     private AddressDTO address;
+    @Schema(example = "{\n" +
+            "    \"zipCode\": \"3760\",\n" +
+            "    \"city\": \"Gudhjem\"\n" +
+            "  }")
     private CityInfoDTO cityInfoDTO;
+    @Schema(example = "[\n" +
+            "    {\n" +
+            "      \"name\": \"Fodbold\",\n" +
+            "      \"description\": \"Fod til bold\",\n" +
+            "    }\n" +
+            "  ]")
     private List<HobbyDTO> hobbyDTOS = new ArrayList<>();
 
     @Override
