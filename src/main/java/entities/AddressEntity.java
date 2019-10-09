@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NamedQuery(name = "AddressEntity.deleteAllRows", query = "DELETE from AddressEntity ")
@@ -62,5 +63,20 @@ public class AddressEntity implements Serializable {
 
     public CityInfoEntity getCityInfo() {
         return cityInfo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressEntity)) return false;
+        AddressEntity that = (AddressEntity) o;
+        return id == that.id &&
+                Objects.equals(street, that.street) &&
+                Objects.equals(additionalInfo, that.additionalInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, street, additionalInfo);
     }
 }

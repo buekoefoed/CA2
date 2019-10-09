@@ -1,7 +1,10 @@
 package entities;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @NamedQuery(name = "PhoneEntity.deleteAllRows", query = "DELETE from PhoneEntity ")
@@ -50,5 +53,20 @@ public class PhoneEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhoneEntity)) return false;
+        PhoneEntity that = (PhoneEntity) o;
+        return id == that.id &&
+                Objects.equals(number, that.number) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, description);
     }
 }

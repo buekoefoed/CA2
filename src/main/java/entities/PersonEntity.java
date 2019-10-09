@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NamedQueries({
@@ -94,5 +95,24 @@ public class PersonEntity implements Serializable {
 
     public List<HobbyEntity> getHobbies() {
         return hobbies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonEntity)) return false;
+        PersonEntity that = (PersonEntity) o;
+        return id == that.id &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(phones, that.phones) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(hobbies, that.hobbies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, firstName, lastName, phones, address, hobbies);
     }
 }
