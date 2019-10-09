@@ -34,7 +34,6 @@ public class PersonEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "hobby_id"))
     private List<HobbyEntity> hobbies = new ArrayList<>();
 
-
     public PersonEntity() {
     }
 

@@ -4,6 +4,8 @@ import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import dtos.PhoneDTO;
 import entities.*;
+import errorhandling.GenericExceptionMapper;
+import errorhandling.PersonNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -132,61 +134,38 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO updatePerson(int id, PersonDTO person) {
+    public PersonDTO updatePerson(int id, PersonDTO person) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+
+        PersonEntity personEntity = em.find(PersonEntity.class, id);
+        if (personEntity == null) {
+            throw new PersonNotFoundException("Person not found");
+        }
+        personEntity.setEmail(person.getEmail());
+        personEntity.setFirstName(person.getFirstName());
+        personEntity.setLastName(person.getLastName());
+
         try {
-            PersonEntity personEntity = em.find(PersonEntity.class, id);
-            personEntity.setEmail(person.getEmail());
-            personEntity.setFirstName(person.getFirstName());
-            personEntity.setLastName(person.getLastName());
-
-            for (HobbyDTO hobbyDTO : person.getHobbies()) {
-                HobbyEntity hobby = new HobbyEntity();
-                hobby.setName(hobbyDTO.getName());
-                hobby.setDescription(hobbyDTO.getDescription());
-                personEntity.addHobby(hobby);
-            }
-
-            for (PhoneDTO phoneDTO : person.getPhones()) {
-                PhoneEntity phone = new PhoneEntity();
-                phone.setNumber(phoneDTO.getNumber());
-                phone.setDescription(phoneDTO.getDescription());
-                personEntity.addPhone(phone);
-            }
-
-            CityInfoEntity cityInfo = new CityInfoEntity();
-            if (person.getCityInfoDTO() != null) {
-                cityInfo = new CityInfoEntity();
-                cityInfo.setCity(person.getCityInfoDTO().getCity());
-                cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
-            }
-
-            if (person.getAddress() != null) {
-                AddressEntity address = new AddressEntity();
-                address.setStreet(person.getAddress().getStreet());
-                address.setAdditionalInfo(person.getAddress().getAdditionalInfo());
-                personEntity.addAddress(address);
-                cityInfo.addAddress(address);
-            }
-
             em.getTransaction().begin();
             em.merge(personEntity);
             em.getTransaction().commit();
-            return person;
         } finally {
             em.close();
         }
+        return person;
+
     }
 
     @Override
-    public PersonEntity deletePerson(int id) {
+    public PersonDTO deletePerson(int id) {
         EntityManager entityManager = getEntityManager();
         try {
             entityManager.getTransaction().begin();
             PersonEntity personEntity = entityManager.find(PersonEntity.class, id);
             entityManager.remove(personEntity);
             entityManager.getTransaction().commit();
-            return personEntity;
+            return new PersonDTO(personEntity);
         } finally {
             entityManager.close();
         }

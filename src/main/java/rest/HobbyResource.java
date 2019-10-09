@@ -196,15 +196,17 @@ public class HobbyResource {
     @PUT
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
+    @Operation(summary = "Update Person info",
             tags = {"person"},
             responses = {
                     @ApiResponse(
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
-    public String updatePerson(@PathParam("id") int id, String person) {
-        return "personDTO of updated person";
+                    @ApiResponse(responseCode = "200", description = "Person updated"),
+                    @ApiResponse(responseCode = "400", description = "Person not found")})
+    public String updatePerson(@PathParam("id") int id, @RequestBody(description = "PersonDTO to replace original with",
+            required = true,
+            content = @Content(schema = @Schema(implementation = PersonDTO.class))) PersonDTO content) {
+        return GSON.toJson(PERSON_FACADE.updatePerson(id, content));
     }
 
     @Path("person/{id}")
@@ -214,11 +216,10 @@ public class HobbyResource {
     @Operation(summary = "Get Person info",
             tags = {"person"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String deletePerson(@PathParam("id") int id) {
-        return "personDTO of deleted person";
+        return GSON.toJson(PERSON_FACADE.deletePerson(id));
     }
 }
