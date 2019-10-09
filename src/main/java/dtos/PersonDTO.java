@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PersonDTO {
     @Schema(required = true, example = "email@email.com")
@@ -144,5 +145,24 @@ public class PersonDTO {
 
     public void setCityInfoDTO(CityInfoDTO cityInfoDTO) {
         this.cityInfoDTO = cityInfoDTO;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonDTO)) return false;
+        PersonDTO personDTO = (PersonDTO) o;
+        return Objects.equals(email, personDTO.email) &&
+                Objects.equals(firstName, personDTO.firstName) &&
+                Objects.equals(lastName, personDTO.lastName) &&
+                Objects.equals(phones, personDTO.phones) &&
+                Objects.equals(address, personDTO.address) &&
+                Objects.equals(cityInfoDTO, personDTO.cityInfoDTO) &&
+                Objects.equals(hobbyDTOS, personDTO.hobbyDTOS);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, firstName, lastName, phones, address, cityInfoDTO, hobbyDTOS);
     }
 }

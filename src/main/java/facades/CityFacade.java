@@ -1,13 +1,13 @@
 package facades;
 
-import dtos.AddressDTO;
 import dtos.CityInfoDTO;
-import entities.AddressEntity;
+import dtos.PersonDTO;
 import entities.CityInfoEntity;
 import entities.PersonEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityFacade implements ICityFacade {
@@ -39,50 +39,62 @@ public class CityFacade implements ICityFacade {
 
 
     @Override
-    public List<CityInfoEntity> getAllCities() {
+    public List<CityInfoDTO> getAllCities() {
         EntityManager em = getEntityManager();
         try {
-            return em.createNamedQuery("CityInfoEntity.getAllRows", CityInfoEntity.class).getResultList();
+            List<CityInfoDTO> citiesDTO = new ArrayList<>();
+            List<CityInfoEntity> cities = em.createNamedQuery("CityInfoEntity.getAllRows", CityInfoEntity.class).getResultList();
+            cities.forEach(city -> citiesDTO.add(new CityInfoDTO(city)));
+            return citiesDTO;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<PersonEntity> getPersonsByCity(String city) {
+    public List<PersonDTO> getPersonsByCity(String city) {
         EntityManager em = getEntityManager();
         try {
-            return em.createNamedQuery("CityInfoEntity.getAllRowsWhereCity", PersonEntity.class)
+            List<PersonDTO> personsDTO = new ArrayList<>();
+            List<PersonEntity> persons = em.createNamedQuery("CityInfoEntity.getAllRowsWhereCity", PersonEntity.class)
                     .setParameter("city", city).getResultList();
+            persons.forEach(person -> personsDTO.add(new PersonDTO(person)));
+            return personsDTO;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<PersonEntity> getPersonsByZipCode(String zipCode) {
+    public List<PersonDTO> getPersonsByZipCode(String zipCode) {
         EntityManager em = getEntityManager();
         try {
-            return em.createNamedQuery("CityInfoEntity.getAllRowsWhereZipCode", PersonEntity.class)
+            List<PersonDTO> personsDTO = new ArrayList<>();
+            List<PersonEntity> persons = em.createNamedQuery("CityInfoEntity.getAllRowsWhereZipCode", PersonEntity.class)
                     .setParameter("zipCode", zipCode).getResultList();
+            persons.forEach(person -> personsDTO.add(new PersonDTO(person)));
+            return personsDTO;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<CityInfoEntity> getCitiesByCount(int num) {
+    public List<CityInfoDTO> getCitiesByCount(int num) {
         EntityManager em = getEntityManager();
         try {
-            return em.createNamedQuery("CityInfoEntity.getAllRowsWhereCount", CityInfoEntity.class)
+            List<CityInfoDTO> citiesDTO = new ArrayList<>();
+            List<CityInfoEntity> cities = em.createNamedQuery("CityInfoEntity.getAllRowsWhereCount", CityInfoEntity.class)
                     .setParameter("num", num).getResultList();
+            cities.forEach(city -> citiesDTO.add(new CityInfoDTO(city)));
+            return citiesDTO;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public CityInfoEntity createCity(CityInfoDTO cityInfo) {
+    public CityInfoDTO createCity(CityInfoDTO cityInfo) {
         EntityManager em = getEntityManager();
 
         CityInfoEntity city = new CityInfoEntity();
@@ -93,11 +105,11 @@ public class CityFacade implements ICityFacade {
         em.persist(city);
         em.getTransaction().commit();
 
-        return city;
+        return new CityInfoDTO(city);
     }
 
     @Override
-    public CityInfoEntity updateCity(int id, CityInfoDTO cityInfo) {
+    public CityInfoDTO updateCity(int id, CityInfoDTO cityInfo) {
         EntityManager em = getEntityManager();
         CityInfoEntity city = em.find(CityInfoEntity.class, id);
 
@@ -117,11 +129,11 @@ public class CityFacade implements ICityFacade {
             em.close();
         }
 
-        return city;
+        return new CityInfoDTO(city);
     }
 
     @Override
-    public CityInfoEntity deleteCity(int id) {
+    public CityInfoDTO deleteCity(int id) {
         EntityManager em = getEntityManager();
         CityInfoEntity city = em.find(CityInfoEntity.class, id);
 
@@ -134,7 +146,6 @@ public class CityFacade implements ICityFacade {
                 em.close();
             }
         }
-
-        return city;
+        return new CityInfoDTO(city);
     }
 }

@@ -1,25 +1,24 @@
 package facades;
 
 import dtos.CityInfoDTO;
-import entities.CityInfoEntity;
-import entities.PersonEntity;
+import dtos.PersonDTO;
 
 import java.util.List;
 
 public interface ICityFacade {
 
-    List<CityInfoEntity> getAllCities();
+    List<CityInfoDTO> getAllCities();
 
-    List<PersonEntity> getPersonsByCity(String city);
+    List<PersonDTO> getPersonsByCity(String city);
 
-    List<PersonEntity> getPersonsByZipCode(String zipCode);
+    List<PersonDTO> getPersonsByZipCode(String zipCode);
 
-    List<CityInfoEntity> getCitiesByCount(int count);
+    List<CityInfoDTO> getCitiesByCount(int count);
 
-    CityInfoEntity createCity(CityInfoDTO cityInfo);
+    CityInfoDTO createCity(CityInfoDTO cityInfo);
 
-    CityInfoEntity updateCity(int id, CityInfoDTO cityInfo);
+    CityInfoDTO updateCity(int id, CityInfoDTO cityInfo);
 
-    CityInfoEntity deleteCity(int id);
+    CityInfoDTO deleteCity(int id);
 
 }
