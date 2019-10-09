@@ -3,6 +3,9 @@
     <head>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script defer src="script.js"></script>
     </head>
     <body style="font-family: sans-serif;padding:8px;font-size: large">
         <h2>Start Code for JPA and JAX-RS projects with support for OpenAPI Documentation</h2>
@@ -23,5 +26,17 @@
                 <li>Verify that you get documentation for your own end-points</li>
             </ul>
         </div>
+        <div id="error"></div>
+        <form id="from" action="/" method="GET">
+    <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text">
+    </div>
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password">
+        </div>
+    <button type="submit"<button/>
+        </form>
     </body>
 </html>
