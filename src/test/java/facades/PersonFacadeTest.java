@@ -2,6 +2,7 @@ package facades;
 
 import dtos.PersonDTO;
 import entities.*;
+import errorhandling.PersonNotFoundException;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
 
@@ -134,7 +135,7 @@ class PersonFacadeTest {
     }
 
     @Test
-    void updatePerson() {
+    void updatePerson() throws PersonNotFoundException {
         PersonDTO personDTO = new PersonDTO("zumba@lord.com", "Karen", "Fug");
         PersonDTO personDTO1 = instance.updatePerson(person2.getId(), personDTO);
         assertEquals("Karen", personDTO1.getFirstName());

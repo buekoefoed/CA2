@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dtos.CityInfoDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
+import errorhandling.PersonNotFoundException;
 import facades.FacadeExample;
 import facades.PersonFacade;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -206,7 +207,11 @@ public class HobbyResource {
     public String updatePerson(@PathParam("id") int id, @RequestBody(description = "PersonDTO to replace original with",
             required = true,
             content = @Content(schema = @Schema(implementation = PersonDTO.class))) PersonDTO content) {
-        return GSON.toJson(PERSON_FACADE.updatePerson(id, content));
+        try {
+            return GSON.toJson(PERSON_FACADE.updatePerson(id, content));
+        } catch (PersonNotFoundException e) {
+            return GSON.toJson(e);
+        }
     }
 
     @Path("person/{id}")
