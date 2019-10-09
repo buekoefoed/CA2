@@ -32,7 +32,7 @@ public class CityInfoEntity implements Serializable {
     private String zipCode;
     @Schema(required = true, example = "Rønne")
     private String city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cityInfo")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "cityInfo")
     private List<AddressEntity> addresses = new ArrayList<>();
 
     public CityInfoEntity() {

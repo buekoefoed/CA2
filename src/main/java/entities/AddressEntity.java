@@ -1,5 +1,7 @@
 package entities;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
