@@ -175,14 +175,8 @@ class CityFacadeTest {
     @Test
     void createCity() {
         CityInfoDTO cityDTO = new CityInfoDTO();
-        AddressDTO addressDTO = new AddressDTO();
-        List<AddressDTO> addressDTOS = new ArrayList<>();
         cityDTO.setZipCode("2500");
         cityDTO.setCity("Valby");
-        addressDTO.setStreet("Vigerslév Allé");
-        addressDTO.setAdditionalInfo("64");
-        addressDTOS.add(addressDTO);
-        cityDTO.setAddresses(addressDTOS);
 
         CityInfoEntity city = facade.createCity(cityDTO);
         List<CityInfoEntity> cities = facade.getAllCities();

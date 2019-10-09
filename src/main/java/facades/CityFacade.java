@@ -88,12 +88,7 @@ public class CityFacade implements ICityFacade {
         CityInfoEntity city = new CityInfoEntity();
         city.setZipCode(cityInfo.getZipCode());
         city.setCity(cityInfo.getCity());
-        for (AddressDTO a : cityInfo.getAddresses()) {
-            AddressEntity address = new AddressEntity();
-            address.setStreet(a.getStreet());
-            address.setAdditionalInfo(a.getAdditionalInfo());
-            city.addAddress(address);
-        }
+
         em.getTransaction().begin();
         em.persist(city);
         em.getTransaction().commit();
