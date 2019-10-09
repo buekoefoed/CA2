@@ -1,7 +1,7 @@
 package facades;
 
 import dtos.PersonDTO;
-import entities.PersonEntity;
+import errorhandling.PersonNotFoundException;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public interface IPersonFacade {
 
     PersonDTO createPerson(PersonDTO person);
 
-    PersonDTO updatePerson(int id, PersonDTO person);
+    PersonDTO updatePerson(int id, PersonDTO person) throws PersonNotFoundException;
 
-    PersonEntity deletePerson(int id);
+    PersonDTO deletePerson(int id);
 
 }

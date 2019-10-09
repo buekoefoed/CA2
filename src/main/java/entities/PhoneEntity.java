@@ -1,13 +1,13 @@
 package entities;
 
-import org.eclipse.persistence.annotations.CascadeOnDelete;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@NamedQuery(name = "PhoneEntity.deleteAllRows", query = "DELETE from PhoneEntity ")
+@NamedQueries({
+        @NamedQuery(name = "PhoneEntity.deleteAllRows", query = "DELETE from PhoneEntity ")
+})
 public class PhoneEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,11 +16,16 @@ public class PhoneEntity implements Serializable {
     private int id;
     private String number;
     private String description;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private PersonEntity person;
 
     public PhoneEntity() {
+    }
+
+    public PhoneEntity(String number, String description) {
+        this.number = number;
+        this.description = description;
     }
 
     public PersonEntity getPerson() {

@@ -38,6 +38,12 @@ public class CityInfoEntity implements Serializable {
     public CityInfoEntity() {
     }
 
+    public CityInfoEntity(String city, String zipCode) {
+        this.city = city;
+        this.zipCode = zipCode;
+        this.addresses = new ArrayList<>();
+    }
+
     public void addAddress(AddressEntity address) {
         this.addresses.add(address);
         address.addCityInfo(this);

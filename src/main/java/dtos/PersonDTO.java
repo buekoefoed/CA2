@@ -24,8 +24,8 @@ public class PersonDTO {
             "  ]")
     private List<PhoneDTO> phones = new ArrayList<>();
     @Schema(example = "{\n" +
-            "    \"street\": \"Holkavej 3\",\n" +
-            "    \"additionalInfo\": \"Hvad du nu vil\"\n" +
+            "    \"street\": \"Holkavej\",\n" +
+            "    \"additionalInfo\": \"3\"\n" +
             "  }")
     private AddressDTO address;
     @Schema(example = "{\n" +

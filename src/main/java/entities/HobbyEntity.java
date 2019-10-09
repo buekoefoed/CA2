@@ -23,7 +23,7 @@ public class HobbyEntity implements Serializable {
     private int id;
     private String name;
     private String description;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "hobbies")
+    @ManyToMany
     private List<PersonEntity> persons = new ArrayList<>();
 
     public HobbyEntity() {
