@@ -139,6 +139,7 @@ public class PersonFacade implements IPersonFacade {
                 PhoneEntity phoneEntity;
                 try {
                     phoneEntity = findPhone(phone);
+                    phoneEntity.setDescription(phone.getDescription());
                     phoneEntity = em.merge(phoneEntity);
                 } catch (PhoneNotFoundException e) {
                     phoneEntity = new PhoneEntity(phone.getNumber(), phone.getDescription());
@@ -176,6 +177,7 @@ public class PersonFacade implements IPersonFacade {
                 HobbyEntity hobbyEntity;
                 try {
                     hobbyEntity = findHobbyEntity(hobbyDTO);
+                    hobbyEntity.setDescription(hobbyDTO.getDescription());
                     hobbyEntity = em.merge(hobbyEntity);
                 } catch (HobbyNotFoundException e) {
                     hobbyEntity = new HobbyEntity(hobbyDTO.getName(), hobbyDTO.getDescription());
@@ -196,9 +198,8 @@ public class PersonFacade implements IPersonFacade {
     private HobbyEntity findHobbyEntity(HobbyDTO hobbyDTO) throws HobbyNotFoundException {
         EntityManager entityManager = getEntityManager();
         HobbyEntity hobbyEntity;
-        TypedQuery<HobbyEntity> query = entityManager.createQuery("select h from HobbyEntity h where h.name = :name and h.description = :desc", HobbyEntity.class)
-                .setParameter("name", hobbyDTO.getName())
-                .setParameter("desc", hobbyDTO.getDescription());
+        TypedQuery<HobbyEntity> query = entityManager.createQuery("select h from HobbyEntity h where h.name = :name", HobbyEntity.class)
+                .setParameter("name", hobbyDTO.getName());
         try {
             hobbyEntity = query.getSingleResult();
         } catch (NonUniqueResultException e) {
@@ -244,8 +245,7 @@ public class PersonFacade implements IPersonFacade {
     private PhoneEntity findPhone(PhoneDTO phoneDTO) throws PhoneNotFoundException {
         EntityManager entityManager = getEntityManager();
         PhoneEntity phoneEntity;
-        TypedQuery<PhoneEntity> query = entityManager.createQuery("select p from PhoneEntity p where p.description = :desc and p.number = :num", PhoneEntity.class)
-                .setParameter("desc", phoneDTO.getDescription())
+        TypedQuery<PhoneEntity> query = entityManager.createQuery("select p from PhoneEntity p where p.number = :num", PhoneEntity.class)
                 .setParameter("num", phoneDTO.getNumber());
         try {
             phoneEntity = query.getSingleResult();
