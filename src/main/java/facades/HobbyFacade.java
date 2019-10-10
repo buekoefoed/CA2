@@ -90,6 +90,7 @@ public class HobbyFacade implements IHobbyFacade {
             em.close();
         }
         return hobby;
+
     }
 
     @Override

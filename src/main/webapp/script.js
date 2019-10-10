@@ -1,32 +1,18 @@
-const name = document.getElementById('name')
-const password = document.getElementById('password')
-const form = document.getElementById('form')
-const errorElement = document.getElementById('error')
+const urlOpenApi = "openapi";
+const urlGithubProject = "https://github.com/emilgth/CA-1_Margarita_Systems";
+const urlTravisProject = "https://travis-ci.org/buekoefoed/CA2/";
+const table = "<table class='table table-hover rounded' style='background-color: white'><thead class='rounded'><tr>";
+const ths = "<th>Name</th><th>Student ID</th><th>Color (green, yellow, red)</th></tr></thead><tbody>";
+const OpenGithubButton = document.getElementById("jokeIdInput");
+const OpenApiButton = document.getElementById("API-documentation");
+const OpenTravisButton = document.getElementById("getJokeById");
 
-form.addEventListener('submit', (e) => {
-    let messages = []
-    if (name.value === '' || name.value == null){
-    messages.push('Name is required')
-}
-
-if (messages.length <= 6) {
-    messages.push('Password must be longer than 6 characters')
-}
-
-if (messages.length >= 20) {
-    messages.push('Password must be less than 20 characters')
-}
-
-if (password.value === 'password') {
-    messages.push('Password cannot be password')
-}
+OpenApiButton.addEventListener("click", function OpenApiButton() {
+    fetch (urlOpenApi + JokeIdInput.value)
+        .then(res => res.json())
+        .then(data => tableDiv.innerHTML = table + ths3 + '<tr>' +
+            '<td>' + data.theJoke + '<td/>' +
+            '<body/><table/>'  );
+});
 
 
-if (messages.length > 0) {
-    e.preventDefault()
-    errorElement.innerText = messages.join(', ')
-}
-
-
-
-})
