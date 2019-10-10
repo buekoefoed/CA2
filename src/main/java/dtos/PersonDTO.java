@@ -91,6 +91,10 @@ public class PersonDTO {
         }
     }
 
+    public void addHobby(HobbyDTO hobby) {
+        this.getHobbies().add(hobby);
+    }
+
     public String getEmail() {
         return email;
     }

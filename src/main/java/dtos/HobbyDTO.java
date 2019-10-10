@@ -3,11 +3,6 @@ package dtos;
 import entities.HobbyEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class HobbyDTO {
@@ -27,11 +22,6 @@ public class HobbyDTO {
     public HobbyDTO(HobbyEntity hobbyEntity) {
         this.name = hobbyEntity.getName();
         this.description = hobbyEntity.getDescription();
-    }
-
-    public HobbyDTO(String name, String description, Date created, Date lastEdited) {
-        this.name = name;
-        this.description = description;
     }
 
     public String getName() {

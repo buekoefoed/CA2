@@ -1,8 +1,7 @@
 package rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dtos.CityInfoDTO;
+import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import entities.*;
 import org.junit.jupiter.api.*;
@@ -14,7 +13,6 @@ import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,7 +39,7 @@ class HobbyResourceTest {
     private static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
-    private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    ;
     private static PersonEntity p1, p2, p3;
     private static CityInfoEntity c1, c2, c3;
     private static PersonDTO p1DTO, p2DTO, p3DTO;
@@ -270,12 +268,15 @@ class HobbyResourceTest {
 
     @Test
     void getCountByHobby() {
-        given()
+        int count = given()
                 .contentType("application/json")
                 .get("margarita/hobby/" + p1.getHobbies().get(0).getName() + "/count").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body(hasValue(1));
+                .extract()
+                .as(Integer.class);
+        
+        assertThat(count, equalTo(1));
     }
 
     @Test
@@ -334,55 +335,145 @@ class HobbyResourceTest {
         c4.addAddress(a4);
         // </editor-fold>
 
-        String json = GSON.toJson(new PersonDTO(p4));
-        /*
+        PersonDTO p4DTO = new PersonDTO(p4);
+
         PersonDTO person = given()
                 .contentType("application/json")
-                .body(json)
+                .body(p4DTO)
                 .when()
                 .post("margarita/person").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .extract()
-                .body().jsonPath().getJsonObject("PersonDTO");
+                .as(PersonDTO.class);
 
-        assertThat(persons.get(0), is(p4));
-        */
-        /*
-        given()
-                .contentType("application/json")
-                .body(json)
-                .when()
-                .post("/margarita/person").then()
-                .assertThat()
-                .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("firstName", equalTo("Bart"))
-                .body("lastName", equalTo("Simpson"));
-        */
+        assertThat(person, equalTo(p4DTO));
     }
 
     @Test
     void createHobby() {
+        HobbyDTO h4DTO = new HobbyDTO();
+        h4DTO.setName("Football");
+        h4DTO.setDescription("Playing the game football");
+
+        HobbyDTO hobby = given()
+                .contentType("application/json")
+                .body(h4DTO)
+                .when()
+                .post("margarita/hobby").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(HobbyDTO.class);
+
+        assertThat(hobby, equalTo(h4DTO));
     }
 
     @Test
     void createCity() {
+        CityInfoDTO c4DTO = new CityInfoDTO();
+        c4DTO.setCity("Frederiksberg");
+        c4DTO.setZipCode("2000");
+
+        CityInfoDTO city = given()
+                .contentType("application/json")
+                .body(c4DTO)
+                .when()
+                .post("margarita/city").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(CityInfoDTO.class);
+
+        assertThat(city, equalTo(c4DTO));
     }
 
     @Test
     void updatePerson() {
+        p1DTO.setEmail("bue@mail.com");
+        p1DTO.getPhones().get(0).setDescription("Private");
+        p1DTO.getAddress().setStreet("Betty Nansens Allé");
+        p1DTO.getAddress().setAdditionalInfo("51");
+        p1DTO.getCityInfoDTO().setCity("Frederiksberg");
+        p1DTO.getCityInfoDTO().setZipCode("2000");
+
+        PersonDTO person = given()
+                .contentType("application/json")
+                .body(p1DTO)
+                .when()
+                .put("margarita/person/" + p1.getId()).then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(PersonDTO.class);
+
+        assertThat(person, equalTo(p1DTO));
     }
 
     @Test
     void updateCity() {
+        c1DTO.setZipCode("2000");
+        c1DTO.setCity("Frederiksberg");
+
+        CityInfoDTO city = given()
+                .contentType("application/json")
+                .body(c1DTO)
+                .when()
+                .put("margarita/city/" + c1.getId()).then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(CityInfoDTO.class);
+
+        assertThat(city, equalTo(c1DTO));
     }
 
     @Test
     void deletePerson() {
+        PersonDTO person = given()
+                .contentType("application/json")
+                .delete("/margarita/person/" + p1.getId()).then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(PersonDTO.class);
+
+        List<PersonDTO> personDTOS = given()
+                .contentType("application/json")
+                .get("margarita/person/all").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .body().jsonPath().getList("", PersonDTO.class);
+
+        assertThat(person, equalTo(p1DTO));
+        assertThat(personDTOS, containsInAnyOrder(p2DTO, p3DTO));
+        assertThat(personDTOS, not(containsInAnyOrder(p1DTO)));
     }
 
     @Test
     void deleteCity() {
+        /*
+        CityInfoDTO city = given()
+                .contentType("application/json")
+                .delete("/margarita/city/" + c1.getId()).then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .as(CityInfoDTO.class);
+
+        List<CityInfoDTO> cityInfoDTOS = given()
+                .contentType("application/json")
+                .get("margarita/city/all").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .extract()
+                .body().jsonPath().getList("", CityInfoDTO.class);
+
+        assertThat(city, equalTo(c1DTO));
+        assertThat(cityInfoDTOS, containsInAnyOrder(c2DTO, c3DTO));
+        assertThat(cityInfoDTOS, not(containsInAnyOrder(c1DTO)));
+        */
     }
 
     @Test

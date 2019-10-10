@@ -98,9 +98,13 @@ public class CityFacade implements ICityFacade {
         city.setZipCode(cityInfo.getZipCode());
         city.setCity(cityInfo.getCity());
 
-        em.getTransaction().begin();
-        em.persist(city);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(city);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
 
         return new CityInfoDTO(city);
     }
