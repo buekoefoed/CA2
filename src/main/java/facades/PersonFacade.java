@@ -61,20 +61,14 @@ public class PersonFacade implements IPersonFacade {
         personEntity.setLastName(person.getLastName());
 
         for (HobbyDTO hobbyDTO : person.getHobbies()) {
-            HobbyEntity hobbyEntity = null;
+            HobbyEntity hobbyEntity = new HobbyEntity();
             try {
                 hobbyEntity = em.createQuery("select h from HobbyEntity h where h.name = :name", HobbyEntity.class).setParameter("name", hobbyDTO.getName()).getSingleResult();
             } catch (Exception e) {
-                e.printStackTrace();
+                hobbyEntity.setName(hobbyDTO.getName());
+                hobbyEntity.setDescription(hobbyDTO.getDescription());
             }
-            if (hobbyEntity != null) {
-                personEntity.addHobby(hobbyEntity);
-            } else {
-                HobbyEntity hobby = new HobbyEntity();
-                hobby.setName(hobbyDTO.getName());
-                hobby.setDescription(hobbyDTO.getDescription());
-                personEntity.addHobby(hobby);
-            }
+            personEntity.addHobby(hobbyEntity);
         }
 
         for (PhoneDTO phoneDTO : person.getPhones()) {
@@ -92,10 +86,6 @@ public class PersonFacade implements IPersonFacade {
                         .setParameter("zipCode", person.getCityInfoDTO().getZipCode())
                         .getSingleResult();
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (cityInfo == null) {
-                cityInfo = new CityInfoEntity();
                 cityInfo.setCity(person.getCityInfoDTO().getCity());
                 cityInfo.setZipCode(person.getCityInfoDTO().getZipCode());
             }

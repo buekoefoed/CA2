@@ -152,6 +152,7 @@ class CityFacadeTest {
             em.getTransaction().begin();
             em.createQuery("select p from PersonEntity p", PersonEntity.class).getResultList().forEach((em::remove));
             em.createQuery("select c from CityInfoEntity c", CityInfoEntity.class).getResultList().forEach((em::remove));
+            em.createQuery("select h from HobbyEntity h", HobbyEntity.class).getResultList().forEach(em::remove);
             em.getTransaction().commit();
         } finally {
             em.close();

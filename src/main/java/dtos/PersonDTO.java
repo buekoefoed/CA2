@@ -39,7 +39,7 @@ public class PersonDTO {
             "      \"description\": \"Fod til bold\",\n" +
             "    }\n" +
             "  ]")
-    private List<HobbyDTO> hobbyDTOS = new ArrayList<>();
+    private List<HobbyDTO> hobbies = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -50,7 +50,7 @@ public class PersonDTO {
                 ", phones=" + phones.toString() +
                 ", address=" + address.toString() +
                 ", cityInfoDTO=" + cityInfoDTO.toString() +
-                ", hobbies=" + hobbyDTOS.toString() +
+                ", hobbies=" + hobbies.toString() +
                 '}';
     }
 
@@ -62,7 +62,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = phones;
         this.address = address;
-        this.hobbyDTOS = hobbies;
+        this.hobbies = hobbies;
     }
 
     public PersonDTO(String email, String firstName, String lastName) {
@@ -71,7 +71,7 @@ public class PersonDTO {
         this.lastName = lastName;
         this.phones = new ArrayList<>();
         this.address = new AddressDTO();
-        this.hobbyDTOS = new ArrayList<>();
+        this.hobbies = new ArrayList<>();
     }
 
     public PersonDTO() {
@@ -87,7 +87,7 @@ public class PersonDTO {
         this.address = new AddressDTO(personEntity.getAddress());
         this.cityInfoDTO = new CityInfoDTO(personEntity.getAddress().getCityInfo());
         for (HobbyEntity hobbyEntity : personEntity.getHobbies()) {
-                this.hobbyDTOS.add(new HobbyDTO(hobbyEntity));
+                this.hobbies.add(new HobbyDTO(hobbyEntity));
         }
     }
 
@@ -132,11 +132,11 @@ public class PersonDTO {
     }
 
     public List<HobbyDTO> getHobbies() {
-        return hobbyDTOS;
+        return hobbies;
     }
 
     public void setHobbies(List<HobbyDTO> hobbies) {
-        this.hobbyDTOS = hobbies;
+        this.hobbies = hobbies;
     }
 
     public CityInfoDTO getCityInfoDTO() {
@@ -158,11 +158,11 @@ public class PersonDTO {
                 Objects.equals(phones, personDTO.phones) &&
                 Objects.equals(address, personDTO.address) &&
                 Objects.equals(cityInfoDTO, personDTO.cityInfoDTO) &&
-                Objects.equals(hobbyDTOS, personDTO.hobbyDTOS);
+                Objects.equals(hobbies, personDTO.hobbies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, firstName, lastName, phones, address, cityInfoDTO, hobbyDTOS);
+        return Objects.hash(email, firstName, lastName, phones, address, cityInfoDTO, hobbies);
     }
 }
