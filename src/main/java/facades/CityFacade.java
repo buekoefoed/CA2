@@ -4,6 +4,7 @@ import dtos.CityInfoDTO;
 import dtos.PersonDTO;
 import entities.CityInfoEntity;
 import entities.PersonEntity;
+import errorhandling.CityInfoEntityNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -106,10 +107,12 @@ public class CityFacade implements ICityFacade {
     }
 
     @Override
-    public CityInfoDTO updateCity(int id, CityInfoDTO cityInfo) {
+    public CityInfoDTO updateCity(int id, CityInfoDTO cityInfo) throws CityInfoEntityNotFoundException {
         EntityManager em = getEntityManager();
         CityInfoEntity city = em.find(CityInfoEntity.class, id);
-
+        if (city == null) {
+            throw new CityInfoEntityNotFoundException("City with id: " + id + " not found");
+        }
         if (cityInfo.getZipCode() != null) {
             city.setZipCode(cityInfo.getZipCode());
         }
@@ -130,18 +133,18 @@ public class CityFacade implements ICityFacade {
     }
 
     @Override
-    public CityInfoDTO deleteCity(int id) {
+    public CityInfoDTO deleteCity(int id) throws CityInfoEntityNotFoundException {
         EntityManager em = getEntityManager();
         CityInfoEntity city = em.find(CityInfoEntity.class, id);
-
-        if (city != null) {
-            try {
-                em.getTransaction().begin();
-                em.remove(city);
-                em.getTransaction().commit();
-            } finally {
-                em.close();
-            }
+        if (city == null) {
+            throw new CityInfoEntityNotFoundException("City with id: " + id + " not found");
+        }
+        try {
+            em.getTransaction().begin();
+            em.remove(city);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
         }
         return new CityInfoDTO(city);
     }

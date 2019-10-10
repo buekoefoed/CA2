@@ -2,6 +2,7 @@ package facades;
 
 import dtos.CityInfoDTO;
 import dtos.PersonDTO;
+import errorhandling.CityInfoEntityNotFoundException;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ public interface ICityFacade {
 
     CityInfoDTO createCity(CityInfoDTO cityInfo);
 
-    CityInfoDTO updateCity(int id, CityInfoDTO cityInfo);
+    CityInfoDTO updateCity(int id, CityInfoDTO cityInfo) throws CityInfoEntityNotFoundException;
 
-    CityInfoDTO deleteCity(int id);
+    CityInfoDTO deleteCity(int id) throws CityInfoEntityNotFoundException;
 
 }

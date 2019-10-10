@@ -77,12 +77,9 @@ public class HobbyFacade implements IHobbyFacade {
     }
 
     @Override
-    public HobbyDTO createHobby(HobbyDTO hobby) throws HobbyNotFoundException {
+    public HobbyDTO createHobby(HobbyDTO hobby) {
         EntityManager em = getEntityManager();
         HobbyEntity newHobby = new HobbyEntity();
-        if (newHobby == null) {
-            throw new HobbyNotFoundException("Could not create a new bro, something is twisted");
-        }
         newHobby.setDescription(hobby.getDescription());
         newHobby.setName(hobby.getName());
         try {

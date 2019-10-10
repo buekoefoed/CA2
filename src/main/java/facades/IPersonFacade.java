@@ -15,6 +15,6 @@ public interface IPersonFacade {
 
     PersonDTO updatePerson(int id, PersonDTO person) throws PersonNotFoundException;
 
-    PersonDTO deletePerson(int id);
+    PersonDTO deletePerson(int id) throws PersonNotFoundException;
 
 }
