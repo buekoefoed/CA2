@@ -5,9 +5,10 @@ import com.google.gson.GsonBuilder;
 import dtos.CityInfoDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
-import facades.CityFacade;
+import errorhandling.CityInfoEntityNotFoundException;
 import errorhandling.HobbyNotFoundException;
 import errorhandling.PersonNotFoundException;
+import facades.CityFacade;
 import facades.FacadeExample;
 import facades.HobbyFacade;
 import facades.PersonFacade;
@@ -69,11 +70,10 @@ public class HobbyResource {
     @Path("person/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
+    @Operation(summary = "Get all persons",
             tags = {"person"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String getAllPersons() {
@@ -83,11 +83,10 @@ public class HobbyResource {
     @Path("hobby/{hobby}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get specific",
+    @Operation(summary = "Get specific hobby by name",
             tags = {"hobby"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
                     @ApiResponse(responseCode = "200", description = "Hobby info"),
                     @ApiResponse(responseCode = "400", description = "Hobby not found")})
     public String getAllPersonsByHobby(@PathParam("hobby") String hobby) {
@@ -100,8 +99,7 @@ public class HobbyResource {
     @Operation(summary = "Get specific city info",
             tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
                     @ApiResponse(responseCode = "200", description = "City info"),
                     @ApiResponse(responseCode = "400", description = "City not found")})
     public String getAllPersonsByCity(@PathParam("city") String city) {
@@ -111,11 +109,10 @@ public class HobbyResource {
     @Path("city/zipcode/{zipcode}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get specific city info",
+    @Operation(summary = "Get list of people by ZipCode",
             tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
                     @ApiResponse(responseCode = "200", description = "City info"),
                     @ApiResponse(responseCode = "400", description = "City not found")})
     public String getAllPersonsByZipCode(@PathParam("zipcode") String zipCode) {
@@ -194,7 +191,7 @@ public class HobbyResource {
                     @ApiResponse(responseCode = "200", description = "All of my hobbies"),
                     @ApiResponse(responseCode = "400", description = "Hobby not found")})
     public String createHobby(@RequestBody(description = "HobbyDTO object that needs to be added to the store",
-    required = true,
+            required = true,
             content = @Content(schema = @Schema(implementation = HobbyDTO.class))) HobbyDTO content) throws HobbyNotFoundException {
         HobbyDTO hobbyDTO = HOBBY_FACADE.createHobby(content);
         return GSON.toJson(hobbyDTO);
@@ -249,7 +246,7 @@ public class HobbyResource {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
-    public String updateCity(@PathParam("id") int id, String city) {
+    public String updateCity(@PathParam("id") int id, String city) throws CityInfoEntityNotFoundException {
         CityInfoDTO cityInfoDTO = GSON.fromJson(city, CityInfoDTO.class);
         //TODO: fix duplicates in db
         return GSON.toJson(CITY_FACADE.updateCity(id, cityInfoDTO));
@@ -265,7 +262,7 @@ public class HobbyResource {
                     @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
-    public String deletePerson(@PathParam("id") int id) {
+    public String deletePerson(@PathParam("id") int id) throws PersonNotFoundException {
         return GSON.toJson(PERSON_FACADE.deletePerson(id));
     }
 
@@ -280,7 +277,7 @@ public class HobbyResource {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
-    public String deleteCity(@PathParam("id") int id) {
+    public String deleteCity(@PathParam("id") int id) throws CityInfoEntityNotFoundException {
         return GSON.toJson(CITY_FACADE.deleteCity(id));
     }
 

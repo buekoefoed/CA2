@@ -142,7 +142,7 @@ class PersonFacadeTest {
     }
 
     @Test
-    void deletePerson() {
+    void deletePerson() throws PersonNotFoundException {
         instance.deletePerson(person1.getId());
         assertEquals(1, instance.getAllPersons().size());
     }

@@ -4,6 +4,7 @@ import dtos.AddressDTO;
 import dtos.CityInfoDTO;
 import dtos.PersonDTO;
 import entities.*;
+import errorhandling.CityInfoEntityNotFoundException;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
@@ -196,7 +197,7 @@ class CityFacadeTest {
     }
 
     @Test
-    void updateCity() {
+    void updateCity() throws CityInfoEntityNotFoundException {
         EntityManager em = emf.createEntityManager();
 
         CityInfoDTO cityDTO = new CityInfoDTO();
