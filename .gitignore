@@ -153,7 +153,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/linux,windows,intellij,netbeans,visualstudiocode
-target\
+target/
 node_modules/.bin/
 node_modules/@babel/
 node_modules/@braintree/

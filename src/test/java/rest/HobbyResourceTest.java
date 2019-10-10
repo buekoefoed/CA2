@@ -275,7 +275,7 @@ class HobbyResourceTest {
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .extract()
                 .as(Integer.class);
-        
+
         assertThat(count, equalTo(1));
     }
 
