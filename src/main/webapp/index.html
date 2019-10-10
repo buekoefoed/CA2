@@ -7,36 +7,43 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script defer src="script.js"></script>
     </head>
-    <body style="font-family: sans-serif;padding:8px;font-size: large">
-        <h2>Start Code for JPA and JAX-RS projects with support for OpenAPI Documentation</h2>
-        <div>
-            <a href="openapi">API-Documentation</a>
-            <p>Observe that the link above does NOT (yet) document your code, but the (in)famous Pet-store</p>
-            <p>In your browser test these two endpoints:</p>
-            <ul>
-                <li><code>/api/openapi.json</code></li>
-                <li><code>/api/openapi.yaml</code></li>
-            </ul>
-            <p>What is returned by these two endpoints (MIME type, and what does the content represent) </p>
-            <h4>TODO:</h4>
-            <ul>
-                <li>Open the file <em>index.html</em> in the folder <em>openapi</em></li>
-                <li>Locate the URL that points to the external petstore-API and replace with a (relative) link to one of the two endpoints given above</li>
-                <li>Refresh your browser (CTRL-F5) and click the link to the <em>API-Documentation</em> again</li>
-                <li>Verify that you get documentation for your own end-points</li>
-            </ul>
+    <div class="container">
+    <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: dodgerblue" style="color: whitesmoke">Krak but with hobbies this time</h1>
+    <div class="p-5 rounded-bottom shadow"  style="background-color: whitesmoke">
+        <div id="table" class="table-responsive"></div>
+        <form class="form-inline">
+            <div>
+            <a href="openapi" class="btn btn-primary" role="button">API-Documentation</a>
+            </div>
+            &nbsp;
+            <div>
+            <a href="https://github.com/buekoefoed/CA2/" class="btn btn-primary" role="button">Github</a><br>
+            </div>
+            &nbsp;
+            <div>
+            <a href="https://travis-ci.org/buekoefoed/CA2/" class="btn btn-primary" role="button">Travis</a><br>
+            </div>
         </div>
-        <div id="error"></div>
-        <form id="from" action="/" method="GET">
-    <div>
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text">
     </div>
-        <div>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password">
+    </div>
+
+    </form>
+        <div class="container">
+            <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: dodgerblue">What would you like to search for</h1>
+            <div class="p-5 rounded-bottom shadow" style="background-color: whitesmoke">
+                <div id="table" class="table-responsive"></div>
+                <form class="form-inline">
+                    <input id="jokeIdInput" class="form-control m-2" placeholder="Enter Joke Id here" type="number">
+                    <button id="getJokeById" class="btn btn-success m-2" type="button" onclick="getJokeById()">Find a specific
+                        joke by id
+                    </button>
+                    <button id="getRandomJoke" class="btn btn-success m-2" type="button" onclick="randomJoke()">Get a random
+                        joke
+                    </button>
+                    <button id="getAllJokes" class="btn btn-success m-2" type="button" onclick="allJokes()">List all the jokes
+                    </button>
+                </form>
+            </div>
         </div>
-    <button type="submit"<button/>
-        </form>
     </body>
 </html>
