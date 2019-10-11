@@ -448,7 +448,7 @@ class HobbyResourceTest {
 
         assertThat(person, equalTo(p1DTO));
         assertThat(personDTOS, containsInAnyOrder(p2DTO, p3DTO));
-        assertThat(personDTOS, not(containsInAnyOrder(p1DTO)));
+        assertThat(personDTOS, not(contains(p1DTO)));
     }
 
     @Test
