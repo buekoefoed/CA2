@@ -12,7 +12,7 @@ const cityInput = document.getElementById("city");
 const zipCodeInput = document.getElementById("zipCode");
 
 function renderAllPersons() {
-    fetch("http://localhost:8080/startcodeOas/api/margarita/person/all")
+    fetch("https://buehub.com/startcodeOas/api/margarita/person/all")
         .then(function (response) {
             return response.json();
         })
@@ -47,7 +47,7 @@ createUserBtn.addEventListener('click', event => {
     console.log(data);
 
     let options = makeOptions("POST", data);
-    fetch("http://localhost:8080/startcodeOas/api/margarita/person/", options)
+    fetch("https://buehub.com/startcodeOas/api/margarita/person/", options)
         .then(function (response) {
             if (!response.ok) {
                 alert(response.status);
