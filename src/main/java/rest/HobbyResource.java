@@ -39,12 +39,10 @@ import javax.ws.rs.core.MediaType;
                 @Tag(name = "hobby", description = "API related to Hobby Info")
         },
         servers = {
-                @Server(
-                        description = "For Local host testing",
+                @Server(description = "For Local host testing",
                         url = "http://localhost:8080/startcodeoas"
                 ),
-                @Server(
-                        description = "Server API",
+                @Server(description = "Server API",
                         url = "http://mydroplet"
                 )
         }
@@ -125,9 +123,8 @@ public class HobbyResource {
     @Operation(summary = "Get count of people with hobby",
             tags = {"hobby"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "Count of people with hobby"),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "Count of people with specified hobby"),
                     @ApiResponse(responseCode = "400", description = "Hobby not found")})
     public String getCountByHobby(@PathParam("hobby") String hobby) {
         return GSON.toJson(HOBBY_FACADE.getPersonCountByHobby(hobby));
@@ -136,13 +133,12 @@ public class HobbyResource {
     @Path("zipcode/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
-            tags = {"person"},
+    @Operation(summary = "Get all ZipCodes",
+            tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "All ZipCodes"),
+                    @ApiResponse(responseCode = "400", description = "ZipCodes not found")})
     public String getAllZipCodes() {
         return GSON.toJson(CITY_FACADE.getAllCities());
     }
@@ -150,11 +146,10 @@ public class HobbyResource {
     @Path("zipcode/{count}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
-            tags = {"person"},
+    @Operation(summary = "Get list of cities with count of people over the specified count of people you want",
+            tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my people"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String getCitiesByPersonCount(@PathParam("count") int count) {
@@ -168,8 +163,7 @@ public class HobbyResource {
     @Operation(summary = "Add person",
             tags = {"person"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "Person added"),
                     @ApiResponse(responseCode = "400", description = "Person not added")})
     public String createPerson(@RequestBody(description = "PersonDTO object that needs to be added to the store",
@@ -187,8 +181,7 @@ public class HobbyResource {
     @Operation(summary = "Get Hobby info",
             tags = {"hobby"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
                     @ApiResponse(responseCode = "200", description = "All of my hobbies"),
                     @ApiResponse(responseCode = "400", description = "Hobby not found")})
     public String createHobby(@RequestBody(description = "HobbyDTO object that needs to be added to the store",
@@ -203,13 +196,12 @@ public class HobbyResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
-            tags = {"person"},
+    @Operation(summary = "Create new city",
+            tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "City added to database"),
+                    @ApiResponse(responseCode = "400", description = "City not added")})
     public String createCity(String city) {
         CityInfoDTO cityInfoDTO = GSON.fromJson(city, CityInfoDTO.class);
         //TODO: throw error if CityDTO is void
@@ -223,8 +215,7 @@ public class HobbyResource {
     @Operation(summary = "Update Person info",
             tags = {"person"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
                     @ApiResponse(responseCode = "200", description = "Person updated"),
                     @ApiResponse(responseCode = "400", description = "Person not found")})
     public String updatePerson(@PathParam("id") int id, @RequestBody(description = "PersonDTO to replace original with",
@@ -242,13 +233,12 @@ public class HobbyResource {
     @PUT
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
-            tags = {"person"},
+    @Operation(summary = "Update city info",
+            tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "City updated"),
+                    @ApiResponse(responseCode = "400", description = "City not found")})
     public String updateCity(@PathParam("id") int id, String city) throws CityInfoEntityNotFoundException {
         CityInfoDTO cityInfoDTO = GSON.fromJson(city, CityInfoDTO.class);
         //TODO: throw error if CityInfoDTO is void
@@ -259,11 +249,11 @@ public class HobbyResource {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
+    @Operation(summary = "Delete person",
             tags = {"person"},
             responses = {
                     @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
+                    @ApiResponse(responseCode = "200", description = "He's dead, you killed him"),
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String deletePerson(@PathParam("id") int id) throws PersonNotFoundException {
         return GSON.toJson(PERSON_FACADE.deletePerson(id));
@@ -273,13 +263,12 @@ public class HobbyResource {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get Person info",
-            tags = {"person"},
+    @Operation(summary = "Delete city by id",
+            tags = {"city"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my people"),
-                    @ApiResponse(responseCode = "400", description = "Persons not found")})
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "City deleted - millions are dead"),
+                    @ApiResponse(responseCode = "400", description = "City not found - they live to fight another day")})
     public String deleteCity(@PathParam("id") int id) throws CityInfoEntityNotFoundException {
         return GSON.toJson(CITY_FACADE.deleteCity(id));
     }
@@ -289,11 +278,10 @@ public class HobbyResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @Operation(summary = "Get Hobby info",
-            tags = {"id"},
+            tags = {"hobby"},
             responses = {
-                    @ApiResponse(
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
-                    @ApiResponse(responseCode = "200", description = "All of my hobbies"),
+                    @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
+                    @ApiResponse(responseCode = "200", description = "Hobby found"),
                     @ApiResponse(responseCode = "400", description = "Hobby not found")})
     public String deleteHobby(@PathParam("id") int id) throws HobbyNotFoundException {
         return GSON.toJson(HOBBY_FACADE.deleteHobby(id));
