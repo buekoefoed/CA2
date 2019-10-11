@@ -1,18 +1,24 @@
-const urlOpenApi = "openapi";
-const urlGithubProject = "https://github.com/emilgth/CA-1_Margarita_Systems";
-const urlTravisProject = "https://travis-ci.org/buekoefoed/CA2/";
-const table = "<table class='table table-hover rounded' style='background-color: white'><thead class='rounded'><tr>";
-const ths = "<th>Name</th><th>Student ID</th><th>Color (green, yellow, red)</th></tr></thead><tbody>";
-const OpenGithubButton = document.getElementById("jokeIdInput");
-const OpenApiButton = document.getElementById("API-documentation");
-const OpenTravisButton = document.getElementById("getJokeById");
+const showAllBtn = document.getElementById("showAllBtn");
+const userInput = document.getElementById("showUser");
+const showUserBtn = document.getElementById("showUserBtn");
 
-OpenApiButton.addEventListener("click", function OpenApiButton() {
-    fetch (urlOpenApi + JokeIdInput.value)
-        .then(res => res.json())
-        .then(data => tableDiv.innerHTML = table + ths3 + '<tr>' +
-            '<td>' + data.theJoke + '<td/>' +
-            '<body/><table/>'  );
+function renderAllPersons() {
+    fetch("http://localhost:8080/api/margarita/person/all")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            let userTable = data.map(person => {
+                return `<tr><td>${person.email}</td><td>${person.firstName}</td><td>${person.lastName}</td><td>${user.phones}</td><td>${user.address}</td><td>${user.cityInfoDTO}</td><td>${user.hobbyDTOS}</td></tr>`;
+            });
+            userTable.unshift(`<tr><th>Email</th><th>FirstName</th><th>LastName</th><th>Phones</th><th>Address</th><th>CityInfo</th><th>HobbyDTOs</th></tr>`);
+            table.innerHTML = `${userTable.join("")}`;
+        })
+}
+
+showAllBtn.addEventListener('click', event => {
+    renderAllPersons();
 });
 
+renderAllPersons();
 
