@@ -190,7 +190,6 @@ public class PersonFacade implements IPersonFacade {
         }
         PersonEntity mergedPerson = em.merge(personEntity);
         em.getTransaction().commit();
-        System.out.println("sup bitch");
         em.close();
         return new PersonDTO(mergedPerson);
     }

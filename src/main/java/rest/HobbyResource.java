@@ -43,7 +43,7 @@ import javax.ws.rs.core.MediaType;
                         url = "http://localhost:8080/startcodeoas"
                 ),
                 @Server(description = "Server API",
-                        url = "http://mydroplet"
+                        url = "https://buehub.com/startcodeOas/"
                 )
         }
 )
