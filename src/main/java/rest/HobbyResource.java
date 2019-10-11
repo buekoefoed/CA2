@@ -175,6 +175,7 @@ public class HobbyResource {
     public String createPerson(@RequestBody(description = "PersonDTO object that needs to be added to the store",
             required = true,
             content = @Content(schema = @Schema(implementation = PersonDTO.class))) PersonDTO content) {
+        //TODO: throw error if PersonDTO content is void
         PersonDTO personDTO = PERSON_FACADE.createPerson(content);
         return GSON.toJson(personDTO);
     }
@@ -193,6 +194,7 @@ public class HobbyResource {
     public String createHobby(@RequestBody(description = "HobbyDTO object that needs to be added to the store",
             required = true,
             content = @Content(schema = @Schema(implementation = HobbyDTO.class))) HobbyDTO content) throws HobbyNotFoundException {
+        //TODO: throw error if HobbyDTO content is void
         HobbyDTO hobbyDTO = HOBBY_FACADE.createHobby(content);
         return GSON.toJson(hobbyDTO);
     }
@@ -210,7 +212,7 @@ public class HobbyResource {
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String createCity(String city) {
         CityInfoDTO cityInfoDTO = GSON.fromJson(city, CityInfoDTO.class);
-        //TODO: fix duplicates in db
+        //TODO: throw error if CityDTO is void
         return GSON.toJson(CITY_FACADE.createCity(cityInfoDTO));
     }
 
@@ -231,6 +233,7 @@ public class HobbyResource {
         try {
             return GSON.toJson(PERSON_FACADE.updatePerson(id, content));
         } catch (PersonNotFoundException e) {
+            //TODO: throw error to tomcat instead
             return GSON.toJson(e);
         }
     }
@@ -248,7 +251,7 @@ public class HobbyResource {
                     @ApiResponse(responseCode = "400", description = "Persons not found")})
     public String updateCity(@PathParam("id") int id, String city) throws CityInfoEntityNotFoundException {
         CityInfoDTO cityInfoDTO = GSON.fromJson(city, CityInfoDTO.class);
-        //TODO: fix duplicates in db
+        //TODO: throw error if CityInfoDTO is void
         return GSON.toJson(CITY_FACADE.updateCity(id, cityInfoDTO));
     }
 
