@@ -1,45 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script defer src="script.js"></script>
-    </head>
-    <div class="container">
-    <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: darkslategray; color:whitesmoke">Krak but with hobbies this time</h1>
-    <div class="p-5 rounded-bottom shadow"  style="background-color: whitesmoke">
+<head>
+    <title>Start Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script defer src="script.js"></script>
+</head>
+<div class="container">
+    <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: darkslategray; color:whitesmoke">Krak but with
+        hobbies this time</h1>
+    <div class="p-5 rounded-bottom shadow" style="background-color: whitesmoke">
         <form class="form-inline">
             <div>
-            <a href="openapi" class="btn btn-secondary" role="button">API-Documentation</a>
+                <a href="openapi" class="btn btn-secondary" role="button">API-Documentation</a>
             </div>
             &nbsp;
             <div>
-            <a href="https://github.com/buekoefoed/CA2/" class="btn btn-secondary" role="button">Github</a><br>
+                <a href="https://github.com/buekoefoed/CA2/" class="btn btn-secondary" role="button">Github</a><br>
             </div>
             &nbsp;
             <div>
-            <a href="https://travis-ci.org/buekoefoed/CA2/" class="btn btn-secondary" role="button">Travis</a><br>
+                <a href="https://travis-ci.org/buekoefoed/CA2/" class="btn btn-secondary" role="button">Travis</a><br>
             </div>
         </form>
-        </div>
     </div>
-    </div>
+</div>
+</div>
 
-
-        <div class="container">
-            <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: darkslategray; color:whitesmoke">What would you like to search for</h1>
-            <div class="p-5 rounded-bottom shadow" style="background-color: whitesmoke">
-                <div id="table" class="table-responsive"></div>
-                <form class="form-inline">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-secondary" id="showAllBtn">Show All Users</button>
-                        </div>
-                    </div>
-                </form>
+<div class="container">
+    <h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: darkslategray; color:whitesmoke">What would
+        you like to search for</h1>
+    <div class="p-5 rounded-bottom shadow" style="background-color: whitesmoke">
+        <table id="table" class="table table-responsive"></table>
+        <form class="form-inline">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-secondary" id="showAllBtn">Show All Users</button>
+                </div>
             </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+
+</div>
+<h1 class="mt-2 mb-0 p-5 rounded-top shadow" style="background-color: darkslategray; color:whitesmoke">Create new person</h1>
+<div class="p-5 rounded-bottom shadow" style="background-color: whitesmoke">
+    <form class="form-inline">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <input type="text" id="firstName" placeholder="First name">
+                <input type="text" id="lastName" placeholder="Last name">
+                <input type="email" id="email" placeholder="Email">
+                <input type="text" id="street" placeholder="Street">
+                <input type="text" id="additionalInfo" placeholder="Number">
+                <input type="text" id="city" placeholder="City">
+                <input type="text" id="zipCode" placeholder="Zip code">
+                <button class="btn btn-secondary" id="createPersonBtn">Create person</button>
+            </div>
+            <table class="table table-responsive" id="createPersonResponse"></table>
         </div>
-    </body>
+    </form>
+</div>
+</body>
 </html>
